@@ -3,3 +3,26 @@ body {
     margin: 0;
     padding: 0;
 }
+
+ul, li {
+    border: 1px solid black;
+    display: inline;
+}
+
+nav {
+    border-bottom: 1px solid black;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    border: 0px solid black;
+    margin: 1em auto;
+    width: 90%;
+
+}
+
+td {
+    border: 1px solid black;
+    border-spacing: 0;
+}
