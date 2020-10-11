@@ -4,49 +4,39 @@ body {
     padding: 0;
 }
 
-/* Navigation bar. */
-nav {
-    border-bottom: 1px solid black;
-    margin-bottom: 2em;
+/* Header and Navigation bar. */
+.header { 
+     background-color: #2196F3;
+    padding: 20px; 
+    text-align: center; 
+    }
+    .nav_menu { 
+     overflow: hidden; 
+     background-color: #BBDEFB;
+ } 
+ .nav_menu a { 
+     float: left;
+     display: block; 
+     color: #212121;
+     text-align: center; 
+     padding: 14px 16px; 
+     text-decoration: none;
+ } 
+.nav_menu a:hover { 
+ background-color: white; 
+ color: #2196F3; 
+} 
+
+.nav_menu input[type=text] {
+  float: right;
+  padding: 6px;
+  border: none;
+  margin-top: 8px;
+  margin-right: 16px;
+  font-size: 17px;
 }
 
-h1 {
-    display: inline-block;
-}
-
-ul {
-    float: right;
-    margin: 0;
-}
-
-ul, h1 {
-    font-size: 1.2em;
-    margin: .2em 1em;
-}
-
-li {
-    display: inline-block;
-}
-
-li a {
-    border: 1px solid black;
-    color: #000;
-    padding: 0 1em;
-    text-decoration: none;
-    
-}
-
-li a:hover {
-    background: #aff;
-}
-
-
-
-
-
-
-
-
+/*end navigation bar*/
 
 table {
     border-spacing: 0;
