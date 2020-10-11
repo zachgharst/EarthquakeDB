@@ -4,6 +4,7 @@ body {
     padding: 0;
 }
 
+<<<<<<< HEAD
 /* Navigation bar. */
 nav {
     background: #fff;
@@ -104,6 +105,41 @@ label {
     text-align: left;
     width: 150px;
 }
+=======
+/* Header and Navigation bar. */
+.header { 
+     background-color: #2196F3;
+    padding: 20px; 
+    text-align: center; 
+    }
+    .nav_menu { 
+     overflow: hidden; 
+     background-color: #BBDEFB;
+ } 
+ .nav_menu a { 
+     float: left;
+     display: block; 
+     color: #212121;
+     text-align: center; 
+     padding: 14px 16px; 
+     text-decoration: none;
+ } 
+.nav_menu a:hover { 
+ background-color: white; 
+ color: #2196F3; 
+} 
+
+.nav_menu input[type=text] {
+  float: right;
+  padding: 6px;
+  border: none;
+  margin-top: 8px;
+  margin-right: 16px;
+  font-size: 17px;
+}
+
+/*end navigation bar*/
+>>>>>>> 74e73b811503d00654fde87eb03f1aa3300341ac
 
 input, select {
     margin: 2px;
@@ -118,6 +154,12 @@ input[type=number] {
     width: 50px;
 }
 
+<<<<<<< HEAD
 input[type=text] {
     width: 150px;
 }
+=======
+.even {
+    background: #CCC;
+}
+>>>>>>> 74e73b811503d00654fde87eb03f1aa3300341ac
