@@ -1,47 +1,7 @@
 body {
-    background: #bbb;
+    background: #ccc;
     margin: 0;
     padding: 0;
-}
-
-<<<<<<< HEAD
-/* Navigation bar. */
-nav {
-    background: #fff;
-    box-shadow: 0 1px 3px #666;
-    border-bottom: 1px solid #111;
-    margin-bottom: 2em;
-}
-
-h1 {
-    display: inline-block;
-}
-
-ul {
-    float: right;
-    margin: 0;
-}
-
-ul, h1 {
-    font-size: 1em;
-    margin: .2em 5.1%;
-    padding: 10px 0;
-}
-
-li {
-    display: inline-block;
-}
-
-li a {
-    border: 1px solid black;
-    color: #000;
-    margin: 0 3px;
-    padding: 2px 1em;
-    text-decoration: none;
-}
-
-li a:hover {
-    background: #dbf8f8;
 }
 
 /* Box shadow and border for main content elements. */
@@ -52,13 +12,56 @@ table, fieldset {
 
 }
 
+/* Header and Navigation bar. */
+h1 {
+    color: #fff;
+    background-color: #2196F3;
+    font-size: 1em;
+    margin: 0;
+    padding: 20px; 
+    text-align: center; 
+}
+
+h1 a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav_menu { 
+    overflow: hidden; 
+    background-color: #BBDEFB;
+} 
+.nav_menu a { 
+    float: left;
+    display: block; 
+    color: #212121;
+    text-align: center; 
+    padding: 14px 16px; 
+    text-decoration: none;
+} 
+
+.nav_menu a:hover { 
+    background: #fff; 
+    color: #2196F3; 
+} 
+
+.nav_menu input[type=text] {
+  float: right;
+  padding: 6px;
+  border: none;
+  margin-top: 8px;
+  margin-right: 16px;
+  font-size: 17px;
+}
+/*end navigation bar*/
+
+
 /* Table results. */
 table {
     background: #fff;
     border: 1px solid black;
     border-spacing: 0;
     border-radius: 10px;
-    border-top-right-radius: 10px;
     margin: 1em auto;
     padding: 0;
     width: 90%;
@@ -76,8 +79,7 @@ td {
 }
 
 .even {
-    background: #dbf8f8;
-;
+    background: #BBDEFB;
 }
 
 .last {
@@ -85,6 +87,7 @@ td {
     padding: 5px;
     text-align: center;
 }
+
 /* Forms. */
 fieldset {
     background: #fff;
@@ -94,52 +97,12 @@ fieldset {
     width: 500px;
 }
 
-h2 {
-    font-size: 1em;
-    margin: 3px;
-}
-
 label {
     display: inline-block;
     font-size: .9em;
     text-align: left;
     width: 150px;
 }
-=======
-/* Header and Navigation bar. */
-.header { 
-     background-color: #2196F3;
-    padding: 20px; 
-    text-align: center; 
-    }
-    .nav_menu { 
-     overflow: hidden; 
-     background-color: #BBDEFB;
- } 
- .nav_menu a { 
-     float: left;
-     display: block; 
-     color: #212121;
-     text-align: center; 
-     padding: 14px 16px; 
-     text-decoration: none;
- } 
-.nav_menu a:hover { 
- background-color: white; 
- color: #2196F3; 
-} 
-
-.nav_menu input[type=text] {
-  float: right;
-  padding: 6px;
-  border: none;
-  margin-top: 8px;
-  margin-right: 16px;
-  font-size: 17px;
-}
-
-/*end navigation bar*/
->>>>>>> 74e73b811503d00654fde87eb03f1aa3300341ac
 
 input, select {
     margin: 2px;
@@ -154,12 +117,6 @@ input[type=number] {
     width: 50px;
 }
 
-<<<<<<< HEAD
 input[type=text] {
     width: 150px;
 }
-=======
-.even {
-    background: #CCC;
-}
->>>>>>> 74e73b811503d00654fde87eb03f1aa3300341ac
