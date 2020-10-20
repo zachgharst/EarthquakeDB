@@ -17,6 +17,6 @@
            <input type="text" placeholder="Search by city name...">
         </div>
 
-        <p>Hello.</p>
+        <?php print("Hello"); ?>
     </body>
 </html>
