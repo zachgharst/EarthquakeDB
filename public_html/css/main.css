@@ -93,7 +93,7 @@ fieldset {
     background: #fff;
     margin: 1em auto;
     padding: 15px;
-    text-align: center;
+    text-align: left;
     width: 500px;
 }
 
@@ -119,4 +119,7 @@ input[type=number] {
 
 input[type=text] {
     width: 150px;
+}
+input[type=submit] {
+    justify-self: center;
 }
