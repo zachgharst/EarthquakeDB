@@ -1,22 +1,8 @@
-<!DOCTYPE html>
-<html lang="eng">
-    <head>
-        <meta charset ="utf-8">
-        <link rel="stylesheet" href="css/main.css">
-        <title>CS470 MFG Earthquake DB</title>
-    </head>
+<?php
 
-    <body>
-        <h1><a href="index.html">CS470 MFG Earthquake DB</a></h1>
-        <div class="nav_menu">
-            <a href="earthquakes.html">Earthquakes</a>
-            <a href="">Tsunamis</a>
-            <a href="">Clusters</a>
-            <a href="">Insurance Policies</a>
-            <a href="search.html">Search</a>
-           <input type="text" placeholder="Search by city name...">
-        </div>
+$title = "Home";
+$content ="<p>Hello!</p>";
 
-        <?php print("Hello"); ?>
-    </body>
-</html>
+include('includes/template.php');
+
+?>
