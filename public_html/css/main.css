@@ -67,7 +67,7 @@ table {
     width: 90%;
 }
 
-tr, thead {
+tr {
     border: 0;
     margin: 0;
     padding: 0;
@@ -78,7 +78,7 @@ td {
     padding: 2px 5px;
 }
 
-.even {
+tr:nth-child(2n+3) {
     background: #BBDEFB;
 }
 

@@ -8,7 +8,7 @@ $content = <<<TABLE
 
 TABLE;
 
-for($i = 0; $i < 50; $i++) {
+for($i = 1; $i < 51; $i++) {
     $content .= "            <tr><td>Earthquake $i</td><td>2020-10-20</td><td>12:17 PM</td><td>Kansas City</td><td>1,000,000</td><td>3.0</td><td>$";
     $content .= rand(0, 1000000);
     $content .= "</td><td>";
