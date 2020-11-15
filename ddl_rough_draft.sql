@@ -46,6 +46,18 @@ SELECT * FROM city
 WHERE population >1000000
 AND country='United States';
 
-SELECT id, name, SQRT((latitude - 40.69) + (longitude + 73.92)) as distance FROM city ORDER BY distance;
+-- SELECT id, name, SQRT((latitude - 40.69) + (longitude + 73.92)) as distance FROM city ORDER BY distance;
 
 SELECT id, name, SQRT((latitude - 40.69)*(latitude - 40.69) + (longitude + 73.92)*(longitude + 73.92)) as distance FROM city ORDER BY distance;
+
+SELECT id, mag, SQRT((latitude - 40.69)*(latitude - 40.69) + (longitude + 73.92)*(longitude + 73.92)) as distance FROM earthquake ORDER BY distance;
+
+(SELECT latitude AS targ_lat, longitude AS targ_long FROM city
+WHERE name='Istanbul')
+
+(SELECT id, mag, SQRT((latitude - targ_lat)*(latitude - targ_lat) + (longitude + targ_long)*(longitude + targ_long))
+as distance FROM earthquake ORDER BY distance);
+
+
+SELECT earthquake.id, mag, SQRT((earthquake.latitude - city.latitude)*(earthquake.latitude - city.latitude) + (earthquake.longitude - city.longitude)*(earthquake.longitude - city.longitude)) as distance FROM earthquake 
+INNER JOIN city ON name = 'New York' ORDER BY distance;
