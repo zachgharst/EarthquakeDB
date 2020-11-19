@@ -1,23 +1,28 @@
 <?php
 
+require_once 'includes/db-config.php';
+
 $title = "Earthquakes";
 $content = <<<TABLE
 
         <table>
-            <tr><th>Earthquake</th><th>Date</th><th>Time</th><th>City</th><th>Population</th><th>Magnitude</th><th>Damage</th><th>Fatalities</th></tr>
+            <tr><th>Earthquake</th><th>Datetime</th><th>Latitude</th><th>Longitude</th><th>Magnitude</th></tr>
 
 TABLE;
 
-for($i = 1; $i < 51; $i++) {
-    $content .= "            <tr><td>Earthquake $i</td><td>2020-10-20</td><td>12:17 PM</td><td>Kansas City</td><td>1,000,000</td><td>3.0</td><td>$";
-    $content .= rand(0, 1000000);
-    $content .= "</td><td>";
-    $content .= rand(0, 100);
-    $content .= "</td></tr>\n";
+
+$query = "SELECT * FROM earthquake;";
+$result = mysqli_query($connection, $query);
+$row_count = mysqli_num_rows($result);
+
+for($i = 0; $i < $row_count; $i++) {
+    $row = mysqli_fetch_assoc($result);
+
+    $content .= "            <tr><td>$row[id]</td><td>$row[time]</td><td>$row[latitude]</td><td>$row[longitude]</td><td>$row[mag]</td>";
 }
 
 $content .= <<<TABLE2
-            <tr><td colspan="8" class="last">50 rows returned.</td></tr>
+            <tr><td colspan="8" class="last">$row_count rows returned.</td></tr>
         </table>
 
 TABLE2;

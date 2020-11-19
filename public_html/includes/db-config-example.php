@@ -7,6 +7,12 @@ $username = "";
 $password = "";
 $database = "";
 
-$connection = new mysqli($host, $username, $password, $database) or die("Connection failed: %s\n" . $connection->error);
+
+$connection = mysqli_connect($host, $username, $password, $database);
+ 
+if (!$connection)
+   die("Unable to connect to MySQL: " . mysqli_connect_errno());
+
 
 ?>
+
