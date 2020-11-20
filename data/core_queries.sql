@@ -12,8 +12,7 @@ SELECT city.name, earthquake.id, earthquake.mag, ST_Distance_Sphere(
     point(city.longitude, city.latitude )
 ) * .000621371192 AS distance 
 FROM earthquake, city 
-WHERE mag > 5.0
+WHERE mag > 5.5
 AND population >100000
-GROUP BY city.id
-HAVING distance <1000.0
+HAVING distance <2000.0
 ORDER BY mag;
