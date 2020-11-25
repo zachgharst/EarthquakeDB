@@ -6,6 +6,13 @@ SELECT earthquake.id, mag, ST_Distance_Sphere(
 ) * .000621371192 AS distance  
 FROM earthquake INNER JOIN city ON name = 'Miami' ORDER BY distance;
 
+-- Same as previous query, but uses cross join and WHERE in order to be more semantic
+SELECT earthquake.id, mag, ST_Distance_Sphere(
+    point(earthquake.longitude, earthquake.latitude),
+    point(city.longitude, city.latitude )
+) * .000621371192 AS distance  
+FROM earthquake CROSS JOIN city WHERE name = 'Miami' ORDER BY distance;
+
 -- Returns a list of all the cities with population > X and distance <Y and magnitude >Z 
 SELECT city.name, earthquake.id, earthquake.mag, ST_Distance_Sphere(
     point(earthquake.longitude, earthquake.latitude),
