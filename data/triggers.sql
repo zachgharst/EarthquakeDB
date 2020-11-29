@@ -6,7 +6,12 @@ CREATE TRIGGER ProduceDamage
 AFTER INSERT
 ON `earthquake` FOR EACH ROW
 BEGIN
-	CALL GenerateRandomDamage(NEW.id, NEW.mag, NEW.latitude, NEW.longitude);
+	CALL GenerateRandomDamage(
+		NEW.id,
+		NEW.mag,
+		NEW.latitude,
+		NEW.longitude
+	);
 END $$
 
     
