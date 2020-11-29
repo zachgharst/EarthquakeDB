@@ -31,3 +31,29 @@ FROM city
 WHERE St_distance_sphere(Point(-74.01, 40.71),
 	Point(longitude, latitude))
 	* .000621371192 < 20;
+	      
+	      
+-- Returns all of the countries that are not within a certain distance of a certain magnitude of earthquake
+-- Runtime of 8 seconds
+SELECT DISTINCT city.country FROM city
+WHERE city.country NOT IN
+(SELECT DISTINCT t1.country FROM
+(SELECT city.country,  ST_Distance_Sphere(
+    point(earthquake.longitude, earthquake.latitude),
+    point(city.longitude, city.latitude )
+) * .000621371192 AS distance 
+FROM earthquake, city
+WHERE earthquake.mag >5.0
+HAVING distance < 500.0
+) t1);
+
+-- Returns the earthquakes and the population within a certain distance of it's center
+-- Runtime of 25 seconds
+SELECT earthquake.id, earthquake.mag, Sum(population) as Population
+FROM city, earthquake
+WHERE ST_Distance_Sphere(
+    point(earthquake.longitude, earthquake.latitude),
+    point(city.longitude, city.latitude )
+) * .000621371192 <50
+GROUP BY earthquake.id
+ORDER BY population DESC;
