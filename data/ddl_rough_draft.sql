@@ -11,14 +11,16 @@ PRIMARY KEY(id)
 ALTER TABLE earthquake
 	ADD mag float;
 
+-- Matt: 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/eqdata.csv'
+-- Zach: '/var/lib/mysql/cs470_earthquakes/eqdata.csv'
 USE earthquake_data;
-LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/eqdata.csv'
+LOAD DATA LOCAL INFILE '/var/lib/mysql/cs470_earthquakes/eqdata.csv'
 INTO TABLE earthquake
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\r\n'
-IGNORE 1 ROWS;
-
+IGNORE 1 ROWS
+(time, latitude, longitude, mag);
 
 CREATE TABLE city(
 id INT NOT NULL AUTO_INCREMENT,
