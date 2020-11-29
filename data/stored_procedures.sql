@@ -1,9 +1,12 @@
+DROP PROCEDURE IF EXISTS GenerateRandomDamage;
+
 DELIMITER $$
 
 CREATE PROCEDURE GenerateRandomDamage(
+	IN e_id INT,
     IN magnitude FLOAT,
-    IN earthquakeLongitude FLOAT,
-    IN earthquakeLatitude FLOAT
+    IN earthquakeLatitude FLOAT,
+    IN earthquakeLongitude FLOAT
 )
 
 BEGIN
@@ -41,7 +44,7 @@ BEGIN
         SET fatalities = POWER(5, magnitude)     / 20000 * populationInRadius / 1000000 * LOG(10, RAND()*31+1);
 
         /* Return the values. */
-        SELECT economicDamage, injuries, fatalities;
+        INSERT INTO damage (earthquake_id, costs, injuries, fatalities) VALUES (e_id, economicDamage, injuries, fatalities);
     END IF;
 END$$
 
