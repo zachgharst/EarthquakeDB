@@ -2,11 +2,9 @@
 
 require_once 'includes/db-config.php';
 
-if(!$_GET[sort]) $sort = "id";
-else $sort = $_GET[sort];
-
-if(!$_GET[order]) $order = "desc";
-else $order = $_GET[order];
+$sortOptions = ["id", "time", "latitude", "longitude", "mag", "costs", "injuries", "fatalities"];
+$sort = in_array($_GET[sort], $sortOptions) ? $_GET[sort] : "id";
+$order = $_GET[order] == "asc" ? "asc" : "desc";
 
 $query = <<<query
 SELECT id,
@@ -21,7 +19,7 @@ FROM   earthquake
 LEFT JOIN damage
 ON id = earthquake_id
 ORDER BY $sort $order
-LIMIT 100;  
+LIMIT 0, 200;  
 query;
 
 $title = "Earthquakes";
