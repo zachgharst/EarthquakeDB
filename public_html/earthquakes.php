@@ -2,6 +2,26 @@
 
 require_once 'includes/db-config.php';
 
+$sortOptions = ["id", "time", "latitude", "longitude", "mag", "costs", "injuries", "fatalities"];
+$sort = in_array($_GET[sort], $sortOptions) ? $_GET[sort] : "id";
+$order = $_GET[order] == "asc" ? "asc" : "desc";
+
+$query = <<<query
+SELECT id,
+time,
+latitude,
+longitude,
+mag,
+costs,
+injuries,
+fatalities
+FROM   earthquake
+LEFT JOIN damage
+ON id = earthquake_id
+ORDER BY $sort $order
+LIMIT 0, 200;  
+query;
+
 $title = "Earthquakes";
 $content = <<<TABLE
 
@@ -9,22 +29,6 @@ $content = <<<TABLE
             <tr><th>Earthquake</th><th>Datetime</th><th>Latitude</th><th>Longitude</th><th>Magnitude</th><th>Economic Cost</th><th>Injuries</th><th>Fatalities</th></tr>
 
 TABLE;
-
-
-$query = <<<query
- SELECT id,
-       time,
-       latitude,
-       longitude,
-       mag,
-       costs,
-       injuries,
-       fatalities
-FROM   earthquake
-       LEFT JOIN damage
-              ON id = earthquake_id;  
-query;
-
 
 $result = mysqli_query($connection, $query);
 $row_count = mysqli_num_rows($result);
