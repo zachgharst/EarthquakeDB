@@ -1,6 +1,5 @@
 DROP PROCEDURE IF EXISTS GenerateRandomDamage;
 
-
 DELIMITER $$
 
 CREATE PROCEDURE GenerateRandomDamage(

@@ -13,6 +13,5 @@ BEGIN
 		NEW.longitude
 	);
 END $$
-
     
 DELIMITER ;
