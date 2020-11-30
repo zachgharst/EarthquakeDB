@@ -18,6 +18,8 @@
         </div>
 
        <div id="main"> <?php print($content); ?></div>
-
+        </div>
+            <footer id="footer"></footer>
+</div>
     </body>
 </html>
