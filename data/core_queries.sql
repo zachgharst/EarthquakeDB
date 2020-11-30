@@ -14,15 +14,13 @@ SELECT earthquake.id, mag, ST_Distance_Sphere(
 FROM earthquake CROSS JOIN city WHERE name = 'Miami' ORDER BY distance;
 
 -- Returns a list of all the cities with population > X and distance <Y and magnitude >Z 
-SELECT city.name, earthquake.id, earthquake.mag, ST_Distance_Sphere(
-    point(earthquake.longitude, earthquake.latitude),
-    point(city.longitude, city.latitude )
+SELECT t2.name, t1.id, t1.mag, ST_Distance_Sphere(
+    point(t1.longitude, t1.latitude),
+    point(t2.longitude, t2.latitude )
 ) * .000621371192 AS distance 
-FROM earthquake, city 
-WHERE mag > 5.0
-AND population >100000
-GROUP BY city.id
-HAVING distance <1000.0
+FROM (SELECT * FROM earthquake WHERE mag > 6.0) t1, (SELECT * FROM city WHERE population >100000) t2
+-- GROUP BY t2.id
+HAVING distance <500.0
 ORDER BY mag;
 
 -- Find the total population within x miles of a long/lat (example: 20 miles of New York).
