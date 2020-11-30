@@ -44,9 +44,9 @@ CREATE TABLE policy (
    city_id INT NOT NULL,
    type_id INT NOT NULL,
    
-   PRIMARY KEY(id)
-   FOREIGN KEY (city_id) REFERENCES city(id)
-   FOREIGN KEY (type_id) REFERENCES type(id)
+   PRIMARY KEY(id),
+   FOREIGN KEY (city_id) REFERENCES city(id),
+   FOREIGN KEY (type_id) REFERENCES policy_type(id)
 );
 
 CREATE TABLE policy_type (
