@@ -37,14 +37,26 @@ CREATE TABLE city (
     PRIMARY KEY(id)
 );
 
-
-CREATE TABLE type (
-  `typeId` int NOT NULL AUTO_INCREMENT,
-  `typename` varchar(50) NOT NULL,
-  `pricemodifier` double,
-  PRIMARY KEY (`typeId`)
+CREATE TABLE policy (
+   id INT NOT NULL auto_increment,
+   policy_name VARCHAR(50) NOT NULL,
+   company_name VARCHAR(50),
+   city_id INT NOT NULL,
+   type_id INT NOT NULL,
+   
+   PRIMARY KEY(id)
+   FOREIGN KEY (city_id) REFERENCES city(id)
+   FOREIGN KEY (type_id) REFERENCES type(id)
 );
-INSERT INTO `type` VALUES (1,'Prime',0.5), (2, 'FullCoverage', 1.0), (3, 'Basic', 0.1), (4, 'Prime', 0.7), (5, 'Basic', 0.3), (6, 'Prime', 0.8), (7, 'FullCoverage', 1.5), (8, 'Prime', 0.9), (9, 'Basic', 0.4), (10, 'Prime', 1.3);
+
+CREATE TABLE policy_type (
+   id INT NOT NULL auto_increment,
+   type_name VARCHAR(50),
+   price_modifier FLOAT DEFAULT NULL,
+   
+   PRIMARY KEY(id)
+);
+
 /* BEFORE ANY DATA CAN BE LOADED, THE STORED PROCEDURES AND TRIGGERS SHOULD BE CREATED. */
 
 -- Matt
