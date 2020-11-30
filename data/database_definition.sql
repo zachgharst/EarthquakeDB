@@ -37,7 +37,25 @@ CREATE TABLE city (
     PRIMARY KEY(id)
 );
 
+CREATE TABLE policy (
+   id INT NOT NULL auto_increment,
+   policy_name VARCHAR(50) NOT NULL,
+   company_name VARCHAR(50),
+   city_id INT NOT NULL,
+   type_id INT NOT NULL,
+   
+   PRIMARY KEY(id)
+   FOREIGN KEY (city_id) REFERENCES city(id)
+   FOREIGN KEY (type_id) REFERENCES type(id)
+);
 
+CREATE TABLE policy_type (
+   id INT NOT NULL auto_increment,
+   type_name VARCHAR(50),
+   price_modifier FLOAT DEFAULT NULL,
+   
+   PRIMARY KEY(id)
+);
 
 /* BEFORE ANY DATA CAN BE LOADED, THE STORED PROCEDURES AND TRIGGERS SHOULD BE CREATED. */
 
