@@ -18,13 +18,13 @@ $content = <<<SEARCH
 <label>Latitude</label>
 <input type="text"><br><br>
 
-<label>Fatalities</label>
-<select>
-    <option>&gt;=</option>
-    <option>&lt;=</option>
-    <option>=</option>
+<label for="fatalities">Fatalities</label>
+<select name="fatalities_direction">
+    <option value="gt">&gt;=</option>
+    <option value="lt">&lt;=</option>
+    <option value="eq">=</option>
 </select>
-<input type="number" value="0"><br>
+<input id="fatalities" name="fatalities" type="number" value="0"><br>
 
 <label for="datemax">Search for dates between </label>
 <input type="date"><br><br>
