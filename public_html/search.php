@@ -18,6 +18,14 @@ $content = <<<SEARCH
 <label>Latitude</label>
 <input type="text"><br><br>
 
+<label for="injuries">Injuries</label>
+<select name="injuries_direction">
+    <option value="gt">&gt;=</option>
+    <option value="lt">&lt;=</option>
+    <option value="eq">=</option>
+</select>
+<input id="injuries" name="injuries" type="number" value="0"><br>
+
 <label for="fatalities">Fatalities</label>
 <select name="fatalities_direction">
     <option value="gt">&gt;=</option>

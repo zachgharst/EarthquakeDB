@@ -7,6 +7,11 @@ if($_GET[mag_direction] == "lt") $mag_direction = "<=";
 elseif($_GET[mag_direction] == "eq") $mag_direction = "=";
 else $mag_direction = ">=";
 
+$injuries = is_numeric($_GET[injuries]) ? $_GET[injuries] : 0;
+if($_GET[injuries_direction] == "lt") $injuries_direction = "<=";
+elseif($_GET[injuries_direction] == "eq") $injuries_direction = "=";
+else $injuries_direction = ">=";
+
 $fatalities = is_numeric($_GET[fatalities]) ? $_GET[fatalities] : 0;
 if($_GET[fatalities_direction] == "lt") $fatalities_direction = "<=";
 elseif($_GET[fatalities_direction] == "eq") $fatalities_direction = "=";
@@ -28,7 +33,10 @@ fatalities
 FROM  earthquake
 LEFT JOIN damage
 ON id = earthquake_id
-WHERE mag $mag_direction $mag AND fatalities $fatalities_direction $fatalities
+WHERE 
+    mag $mag_direction $mag AND
+    injuries $injuries_direction $injuries AND
+    fatalities $fatalities_direction $fatalities
 ORDER BY $sort $order
 LIMIT 0, 200;  
 query;
