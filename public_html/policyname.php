@@ -10,7 +10,7 @@
 
     while ($row = mysqli_fetch_array($result))
     {
-            $content .= "Policy Name: $row[id] | Policy.ID: $row[mag] | City: $row[distance]";
+            $content .= "Policy Name: $row[name] | Policy ID: $row[id] | City: $row[cityId]";
             $content .= "<br>";
    }
 
