@@ -14,10 +14,10 @@
             <a href="">Clusters</a>
             <a href="">Insurance Policies</a>
             <a href="search.php">Search</a>
-           <input type="text" placeholder="Search by city name...">
+           <form action="city.php" method="get"><input name="cityname" type="text" placeholder="Search by city name..."></form>
         </div>
 
-        <?php print($content); ?>
+       <div id="main"> <?php print($content); ?></div>
 
     </body>
 </html>
