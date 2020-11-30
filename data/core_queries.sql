@@ -32,16 +32,15 @@ WHERE St_distance_sphere(Point(-74.01, 40.71),
 	      
 	      
 -- Returns all of the countries that are not within a certain distance of a certain magnitude of earthquake
--- Runtime of 8 seconds
+-- Runtime of 17 seconds
 SELECT DISTINCT city.country FROM city
 WHERE city.country NOT IN
 (SELECT DISTINCT t1.country FROM
 (SELECT city.country,  ST_Distance_Sphere(
-    point(earthquake.longitude, earthquake.latitude),
+    point(t2.longitude, t2.latitude),
     point(city.longitude, city.latitude )
 ) * .000621371192 AS distance 
-FROM earthquake, city
-WHERE earthquake.mag >5.0
+FROM (SELECT * FROM earthquake WHERE mag > 6.0) t2, city
 HAVING distance < 500.0
 ) t1);
 
