@@ -2,7 +2,7 @@
 
 $title = "Search";
 $content = <<<SEARCH
-<form><fieldset><h2>Advanced Search</h2>
+<form method="get" action="earthquakes.php"><fieldset><h2>Advanced Search</h2>
 
 <label>Magnitude</label>
 <select>
@@ -37,7 +37,18 @@ $content = <<<SEARCH
 <label>Tsunami risk?</label>
 <input type="checkbox"><br>
 
- 
+<label>Sort by</label>
+<select name="sort">
+    <option value="mag">Magnitude</option>
+    <option value="costs">Economic Cost</option>
+    <option value="injuries">Injuries</option>
+    <option value="fatalities">Fatalities</option>
+</select>
+<select name="order">
+    <option value="asc">Asc</option>
+    <option value="desc">Desc</option>
+</select>
+<br>
 
 <input type="submit" value="Search">
 </fieldset></form>
