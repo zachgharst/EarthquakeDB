@@ -12,7 +12,7 @@
             <a href="earthquakes.php">Earthquakes</a>
             <a href="">Tsunamis</a>
             <a href="">Clusters</a>
-            <a href="">Insurance Policies</a>
+            <a href="policyname.php">Insurance Policies</a>
             <a href="search.php">Search</a>
            <form action="city.php" method="get"><input name="cityname" type="text" placeholder="Search by city name..."></form>
         </div>
