@@ -72,6 +72,7 @@ ORDER BY $sort $order
 LIMIT $offset, 200;  
 query;
 
+/* Start generating content. */
 $title = "Earthquakes";
 $content = <<<TABLE
 
@@ -90,6 +91,7 @@ for($i = 0; $i < $row_count; $i++) {
     $content .= "            <tr><td>$row[id]</td><td>$row[time]</td><td>$row[latitude]</td><td>$row[longitude]</td><td>$row[mag]</td><td>$row[costs]</td><td>$row[injuries]</td><td>$row[fatalities]</td></tr>";
 }
 
+/* Generate paging. */
 $prev_page = $page - 1;
 $next_page = $page + 1;
 

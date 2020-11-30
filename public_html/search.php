@@ -12,11 +12,11 @@ $content = <<<SEARCH
 </select>
 <input id="magnitude" name="mag" type="number" value="0"><br>
 
-<label>Longitude</label>
+<!-- <label>Longitude</label>
 <input type="text"><br>
 
 <label>Latitude</label>
-<input type="text"><br><br>
+<input type="text"><br><br> -->
 
 <label for="injuries">Injuries</label>
 <select name="injuries_direction">
@@ -34,7 +34,7 @@ $content = <<<SEARCH
 </select>
 <input id="fatalities" name="fatalities" type="number" value="0"><br>
 
-<label for="datemax">Search for dates between </label>
+<!-- <label for="datemax">Search for dates between </label>
 <input type="date"><br><br>
 <label for="datemin">And</label>
 <input type="date" > <br>
@@ -43,7 +43,7 @@ $content = <<<SEARCH
 <input type="checkbox"> <br>
 
 <label>Tsunami risk?</label>
-<input type="checkbox"><br>
+<input type="checkbox"><br> -->
 
 <label for="sort">Sort by</label>
 <select id="sort" name="sort">
