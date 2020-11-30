@@ -13,7 +13,7 @@ if($_GET[injuries_direction] == "lt") $injuries_direction = "<=";
 elseif($_GET[injuries_direction] == "eq") $injuries_direction = "=";
 else $injuries_direction = ">=";
 
-$fatalities = is_numeric($_GET[fatalities]) ? $_GET[fatalities] : "0 OR fatalities IS NULL";
+$fatalities = is_numeric($_GET[fatalities]) && $_GET[fatalities] != 0 ? $_GET[fatalities] : "0 OR fatalities IS NULL";
 if($_GET[fatalities_direction] == "lt") $fatalities_direction = "<=";
 elseif($_GET[fatalities_direction] == "eq") $fatalities_direction = "=";
 else $fatalities_direction = ">=";
@@ -37,9 +37,9 @@ LEFT JOIN damage
 ON id = earthquake_id
 WHERE 
     mag $mag_direction $mag AND
-    injuries $injuries_direction $injuries AND
-    fatalities $fatalities_direction $fatalities
-ORDER BY $sort $order;
+    (injuries $injuries_direction $injuries) AND
+    (fatalities $fatalities_direction $fatalities)
+ORDER BY $sort $order
 query;
 
 $total_rows = mysqli_query($connection, $query_total_rows);
@@ -96,7 +96,7 @@ $next_page = $page + 1;
 $paging_choices = "";
 if($page != 1) $paging_choices .= "<a href=\"?page=1\">First</a> | <a href=\"?page=$prev_page\">Previous</a> | ";
 else $paging_choices .= "First | Previous | ";
-$paging_choices .= "$page of $total_pages | ";
+$paging_choices .= "Page $page of $total_pages | ";
 $paging_choices .= $page != $total_pages ? "<a href=\"?page=$next_page\">Next</a> | <a href=\"?page=$total_pages\">Last</a>" : "Next | Last";
 
 $content .= <<<TABLE2
