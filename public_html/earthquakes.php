@@ -2,6 +2,12 @@
 
 require_once 'includes/db-config.php';
 
+$mag = is_numeric($_GET[mag]) ? $_GET[mag] : 0;
+
+if($_GET[mag_direction] == "lt") $mag_direction = "<=";
+elseif($_GET[mag_direction] == "eq") $mag_direction = "=";
+else $mag_direction = ">=";
+
 $sortOptions = ["id", "time", "latitude", "longitude", "mag", "costs", "injuries", "fatalities"];
 $sort = in_array($_GET[sort], $sortOptions) ? $_GET[sort] : "id";
 $order = $_GET[order] == "asc" ? "asc" : "desc";
@@ -15,9 +21,10 @@ mag,
 costs,
 injuries,
 fatalities
-FROM   earthquake
+FROM  earthquake
 LEFT JOIN damage
 ON id = earthquake_id
+WHERE mag $mag_direction $mag
 ORDER BY $sort $order
 LIMIT 0, 200;  
 query;
