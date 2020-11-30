@@ -38,13 +38,7 @@ CREATE TABLE city (
 );
 
 
-CREATE TABLE type (
-  `typeId` int NOT NULL AUTO_INCREMENT,
-  `typename` varchar(50) NOT NULL,
-  `pricemodifier` double,
-  PRIMARY KEY (`typeId`)
-);
-INSERT INTO `type` VALUES (1,'Prime',0.5), (2, 'FullCoverage', 1.0), (3, 'Basic', 0.1), (4, 'Prime', 0.7), (5, 'Basic', 0.3), (6, 'Prime', 0.8), (7, 'FullCoverage', 1.5), (8, 'Prime', 0.9), (9, 'Basic', 0.4), (10, 'Prime', 1.3);
+
 /* BEFORE ANY DATA CAN BE LOADED, THE STORED PROCEDURES AND TRIGGERS SHOULD BE CREATED. */
 
 -- Matt
