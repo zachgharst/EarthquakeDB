@@ -4,7 +4,7 @@ body {
     padding: 0;
 }
 
-/* Box shadow and border for main content elements. */
+/* Main content elements. */
 div#main {
     background: #fff;
     border: 1px solid #000;
@@ -24,6 +24,16 @@ div#main {
 #main p,
 #main ul {
     margin: 10px 25px;
+}
+
+#main a:visited,
+#main a {
+    color: #111;
+    text-decoration: none;
+}
+
+#main a:after {
+    content: " 🔗";
 }
 
 /* Header and Navigation bar. */
@@ -72,6 +82,7 @@ h1 a {
 #footer {
     background-color: #000;
     bottom: -900px;
+    display: none;
     height: 300px;
     position: absolute;
     width: 100%;
@@ -97,7 +108,8 @@ tr {
     padding: 0;
 }
 
-td {
+td,
+th {
     margin: 0;
     padding: 2px 8px;
 }
@@ -106,7 +118,8 @@ tr:nth-child(2n+3) {
     background: #bbdefb;
 }
 
-.last {
+.last,
+.first {
     font-size: .8em;
     padding: 5px;
     text-align: center;
