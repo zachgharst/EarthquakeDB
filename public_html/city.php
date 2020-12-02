@@ -13,6 +13,7 @@
 
         if($cityData) {
             $title = "$cityData[name]";
+            
             $EQData = "SELECT DATE_FORMAT(time, '%M %e, %Y') as time1, TIME(time) as time2, mag, earthquake.latitude, earthquake.longitude, ST_Distance_Sphere(
                 point(earthquake.longitude, earthquake.latitude),
                 point(city.longitude, city.latitude )
