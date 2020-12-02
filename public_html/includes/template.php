@@ -10,10 +10,9 @@
         <h1><a href="index.php">CS470 MFG Earthquake DB</a></h1>
         <div class="nav_menu">
             <a href="earthquakes.php">Earthquakes</a>
-            <a href="">Tsunamis</a>
-            <a href="">Clusters</a>
+            <a href="clusters.php">Clusters</a>
             <a href="policyname.php">Insurance Policies</a>
-            <a href="search.php">Search</a>
+            <a href="search.php">Advanced Search</a>
            <form action="city.php" method="get"><input name="cityname" type="text" placeholder="Search by city name..."></form>
         </div>
 
