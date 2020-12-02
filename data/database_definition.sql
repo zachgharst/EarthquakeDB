@@ -58,9 +58,9 @@ CREATE TABLE policy_type (
 );
 
 CREATE TABLE cluster(
-cluster_id INT NOT NULL,
-earthquake_id INT NOT NULL,
-FOREIGN KEY(earthquake_id) REFERENCES earthquake(id)
+   cluster_id INT NOT NULL,
+   earthquake_id INT NOT NULL,
+   FOREIGN KEY(earthquake_id) REFERENCES earthquake(id)
 );
 
 
@@ -70,10 +70,10 @@ VALUES (1,'Prime',0.5), (2, 'FullCoverage', 1.0), (3, 'Basic', 0.1), (4, 'Prime'
 /* BEFORE ANY DATA CAN BE LOADED, THE STORED PROCEDURES AND TRIGGERS SHOULD BE CREATED. */
 
 INSERT INTO cluster
-SELECT DISTINCT clusterid, q1id FROM clusterview3;
+   SELECT DISTINCT clusterid, q1id FROM clusterview3;
 
 INSERT INTO cluster
-SELECT clusterid, q2id FROM clusterview3;
+   SELECT clusterid, q2id FROM clusterview3;
 
 
 -- Matt
