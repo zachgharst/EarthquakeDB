@@ -16,9 +16,11 @@
            <form action="city.php" method="get"><input name="cityname" type="text" placeholder="Search by city name..."></form>
         </div>
 
-       <div id="main"> <?php print($content); ?></div>
+        <div id="main">
+<?php print($content); ?>
+
         </div>
-            <footer id="footer"></footer>
-</div>
+        
+        <footer id="footer"></footer>
     </body>
 </html>
