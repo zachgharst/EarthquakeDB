@@ -99,7 +99,7 @@ tr {
 
 td {
     margin: 0;
-    padding: 2px 5px;
+    padding: 2px 8px;
 }
 
 tr:nth-child(2n+3) {
@@ -110,6 +110,14 @@ tr:nth-child(2n+3) {
     font-size: .8em;
     padding: 5px;
     text-align: center;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
 }
 
 /* Forms. */
