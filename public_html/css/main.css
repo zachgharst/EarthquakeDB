@@ -124,3 +124,16 @@ input[type=text] {
 input[type=submit] {
     justify-self: center;
 }
+
+#footer{
+position: absolute;
+  bottom: -900px;
+  width: 100%;
+  height: 300px;
+background-color: #000;
+}
+footer a:link,
+footer a:visited {
+  color: #fff;
+  text-decoration: none;
+}
