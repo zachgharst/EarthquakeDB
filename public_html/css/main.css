@@ -16,6 +16,14 @@ div#main {
     padding: 0;
 }
 
+#main h3 {
+    margin: 20px 25px 0;
+}
+
+#main h2, #main p, #main ul {
+    margin: 10px 25px;
+}
+
 /* Header and Navigation bar. */
 h1 {
     color: #fff;
