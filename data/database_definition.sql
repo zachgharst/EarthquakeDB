@@ -60,7 +60,6 @@ CREATE TABLE policy_type (
 CREATE TABLE cluster(
 cluster_id INT NOT NULL,
 earthquake_id INT NOT NULL,
-PRIMARY KEY(cluster_id),
 FOREIGN KEY(earthquake_id) REFERENCES earthquake(id)
 );
 
@@ -73,6 +72,8 @@ VALUES (1,'Prime',0.5), (2, 'FullCoverage', 1.0), (3, 'Basic', 0.1), (4, 'Prime'
 INSERT INTO cluster
 SELECT DISTINCT clusterid, q1id FROM clusterview3;
 
+INSERT INTO cluster
+SELECT clusterid, q2id FROM clusterview3;
 
 
 -- Matt
