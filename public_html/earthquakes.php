@@ -24,18 +24,7 @@ $order = $_GET[order] == "asc" ? "asc" : "desc";
 
 /* Gather the total number of rows possible based on the filter. */
 $query_total_rows = <<<query
-SELECT id,
-time,
-latitude,
-longitude,
-mag,
-costs,
-injuries,
-fatalities
-FROM  earthquake
-LEFT JOIN damage
-ON id = earthquake_id
-WHERE 
+SELECT id FROM earthquake LEFT JOIN damage ON id = earthquake_id WHERE 
     mag $mag_direction $mag AND
     (injuries $injuries_direction $injuries) AND
     (fatalities $fatalities_direction $fatalities)
@@ -53,18 +42,14 @@ $offset = ($page - 1) * 200;
 
 /* Gather the 200 rows based on the current page. */
 $query = <<<query
-SELECT id,
-time,
+SELECT DATE_FORMAT(time, '%M %e, %Y') as time1, TIME(time) as time2,
 latitude,
 longitude,
 mag,
 costs,
 injuries,
 fatalities
-FROM  earthquake
-LEFT JOIN damage
-ON id = earthquake_id
-WHERE 
+FROM  earthquake LEFT JOIN damage ON id = earthquake_id WHERE 
     mag $mag_direction $mag AND
     (injuries $injuries_direction $injuries) AND
     (fatalities $fatalities_direction $fatalities)
@@ -77,7 +62,7 @@ $title = "Earthquakes";
 $content = <<<TABLE
 
         <table>
-            <tr><th>Earthquake</th><th>Datetime</th><th>Latitude</th><th>Longitude</th><th>Magnitude</th><th>Economic Cost</th><th>Injuries</th><th>Fatalities</th></tr>
+            <tr><th>Date</th><th>Time</th><th>Latitude</th><th>Longitude</th><th>Magnitude</th><th>Economic Cost</th><th>Injuries</th><th>Fatalities</th></tr>
 
 TABLE;
 
@@ -88,7 +73,7 @@ for($i = 0; $i < $row_count; $i++) {
     $row = mysqli_fetch_assoc($result);
     if($row[costs] != NULL) $row[costs] = "\$" . $row[costs];
 
-    $content .= "            <tr><td>$row[id]</td><td>$row[time]</td><td>$row[latitude]</td><td>$row[longitude]</td><td>$row[mag]</td><td>$row[costs]</td><td>$row[injuries]</td><td>$row[fatalities]</td></tr>";
+    $content .= "            <tr><td>$row[time1]</td><td>$row[time2]</td><td>$row[latitude]</td><td>$row[longitude]</td><td>$row[mag]</td><td>$row[costs]</td><td>$row[injuries]</td><td>$row[fatalities]</td></tr>";
 }
 
 /* Generate paging. */

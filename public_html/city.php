@@ -12,7 +12,8 @@
 
 
         if($cityData) {
-            $EQData = "SELECT DATE_FORMAT(DATE(time), '%M %e, %Y') as time1, TIME(time) as time2, mag, earthquake.latitude, earthquake.longitude, ST_Distance_Sphere(
+            $title = "$cityData[name]";
+            $EQData = "SELECT DATE_FORMAT(time, '%M %e, %Y') as time1, TIME(time) as time2, mag, earthquake.latitude, earthquake.longitude, ST_Distance_Sphere(
                 point(earthquake.longitude, earthquake.latitude),
                 point(city.longitude, city.latitude )
             ) * .000621371192 AS distance  
@@ -64,7 +65,7 @@
             $content .= "<tr><td colspan=\"5\" class=\"last\">$numCities cities found.</td></tr>";
 
         }
-        
+
         else {
             $content .= "<p>We couldn't find a city by that name in our database.</p>";
         }
