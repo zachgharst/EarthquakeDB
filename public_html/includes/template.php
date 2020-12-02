@@ -11,7 +11,7 @@
         <div class="nav_menu">
             <a href="earthquakes.php">Earthquakes</a>
             <a href="clusters.php">Clusters</a>
-            <a href="policyname.php">Insurance Policies</a>
+            <a href="policies.php">Insurance Policies</a>
             <a href="search.php">Advanced Search</a>
            <form action="city.php" method="get"><input name="cityname" type="text" placeholder="Search by city name..."></form>
         </div>
