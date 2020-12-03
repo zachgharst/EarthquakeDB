@@ -51,25 +51,6 @@ query;
     $query_concat_limit = "ORDER BY $sort $order LIMIT $offset, 200";
     $query = $query_no_limit . $query_concat_limit;
 
-    /* Start generating content. */
-    $title = "Earthquakes";
-    $content = <<<TABLE
-
-        <table class="right">
-            <tr><th class="left">Date</th><th>Time</th><th>Latitude</th><th>Longitude</th><th>Magnitude</th><th>Economic Cost</th><th>Injuries</th><th>Fatalities</th></tr>
-
-TABLE;
-
-    $result = mysqli_query($connection, $query);
-    $row_count = mysqli_num_rows($result);
-
-    for($i = 0; $i < $row_count; $i++) {
-        $row = mysqli_fetch_assoc($result);
-        if($row[costs] != NULL) $row[costs] = "\$" . $row[costs];
-
-        $content .= "            <tr><td class=\"left\">$row[formattedDate]</td><td>$row[formattedTime]</td><td>$row[latitude]</td><td>$row[longitude]</td><td>$row[mag]</td><td>$row[costs]</td><td>$row[injuries]</td><td>$row[fatalities]</td></tr>";
-    }
-
     /* Generate paging. */
     $prev_page = $page - 1;
     $next_page = $page + 1;
@@ -79,6 +60,26 @@ TABLE;
     else $paging_choices .= "First | Previous | ";
     $paging_choices .= "Page $page of $total_pages | ";
     $paging_choices .= $page != $total_pages ? "<a href=\"?page=$next_page\">Next</a> | <a href=\"?page=$total_pages\">Last</a>" : "Next | Last";
+
+    $result = mysqli_query($connection, $query);
+    $row_count = mysqli_num_rows($result);
+
+    /* Start generating content. */
+    $title = "Earthquakes";
+    $content = <<<TABLE
+
+        <table class="right">
+            <tr><td colspan="8" class="first">$paging_choices</td></tr>
+            <tr><th class="left">Date</th><th>Time</th><th>Latitude</th><th>Longitude</th><th>Magnitude</th><th>Economic Cost</th><th>Injuries</th><th>Fatalities</th></tr>
+
+TABLE;
+
+    for($i = 0; $i < $row_count; $i++) {
+        $row = mysqli_fetch_assoc($result);
+        if($row[costs] != NULL) $row[costs] = "\$" . $row[costs];
+
+        $content .= "            <tr><td class=\"left\">$row[formattedDate]</td><td>$row[formattedTime]</td><td>$row[latitude]</td><td>$row[longitude]</td><td>$row[mag]</td><td>$row[costs]</td><td>$row[injuries]</td><td>$row[fatalities]</td></tr>";
+    }
 
     $content .= <<<TABLE2
             <tr><td colspan="8" class="last">$row_count rows returned of $total_rows.<br>$paging_choices</td></tr>
