@@ -42,17 +42,18 @@
             }
 
             else {
-                $content .= "<p>No earthquakes within 50 miles recorded in $cityData[name] this year.</p>";
+                $content .= "<p class=\"error\">No earthquakes within 50 miles recorded in $cityData[name] this year.</p>";
             }
         }
 
         else {
-            $content .= "<p>No such city found.</p>";
+            $content .= "<p class=\"error\">No such city found.</p>";
         }
     }
 
-    else if(isset($_GET[cityname]) && $_GET[cityname] != "") {
-        $cityName = mysqli_real_escape_string($connection, $_GET[cityname]);
+    else if(isset($_GET[cityname]) && trim($_GET[cityname]) != "") {
+    	$cityName = trim($_GET[cityname]);
+        $cityName = mysqli_real_escape_string($connection, $cityName);
 
         $citiesList = "SELECT id, name, latitude, longitude, country, population FROM city WHERE name LIKE '%$cityName%' ORDER BY population DESC";
         $citiesList = mysqli_query($connection, $citiesList);
@@ -68,12 +69,12 @@
         }
 
         else {
-            $content .= "<p>We couldn't find a city by that name in our database.</p>";
+            $content .= "<p class=\"error\">We couldn't find a city by that name in our database.</p>";
         }
     }
 
     else {
-        $content = "<p>Please type in the name of a city in the top right portion of the website.</p>";
+        $content = "<p class=\"error\">Please type in the name of a city in the top right portion of the website.</p>";
     }
 
     include('includes/template.php');

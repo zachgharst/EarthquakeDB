@@ -32,6 +32,10 @@ div#main {
     text-decoration: none;
 }
 
+#main p.error {
+    text-align: center;
+}
+
 #main a:after {
     content: " 🔗";
 }
