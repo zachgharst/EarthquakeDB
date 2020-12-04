@@ -4,10 +4,10 @@ body {
     padding: 0;
 }
 
-/* Box shadow and border for main content elements. */
+/* Main content elements. */
 div#main {
     background: #fff;
-    border: 1px solid black;
+    border: 1px solid #000;
     border-spacing: 0;
     border-radius: 10px;
     box-shadow: 0px 2px 4px #666;
@@ -16,10 +16,34 @@ div#main {
     padding: 0;
 }
 
+#main h3 {
+    margin: 20px 25px 0;
+}
+
+#main h2,
+#main p,
+#main ul {
+    margin: 10px 25px;
+}
+
+#main a:visited,
+#main a {
+    color: #111;
+    text-decoration: none;
+}
+
+#main p.error {
+    text-align: center;
+}
+
+#main a:after {
+    content: " 🔗";
+}
+
 /* Header and Navigation bar. */
 h1 {
     color: #fff;
-    background-color: #2196F3;
+    background-color: #2196f3;
     font-size: 1em;
     margin: 0;
     padding: 20px; 
@@ -33,8 +57,9 @@ h1 a {
 
 .nav_menu { 
     overflow: hidden; 
-    background-color: #BBDEFB;
-} 
+    background-color: #bbdefb;
+}
+
 .nav_menu a { 
     float: left;
     display: block; 
@@ -46,18 +71,32 @@ h1 a {
 
 .nav_menu a:hover { 
     background: #fff; 
-    color: #2196F3; 
+    color: #2196f3; 
 } 
 
 .nav_menu input[type=text] {
-  float: right;
-  padding: 6px;
-  border: none;
-  margin-top: 8px;
-  margin-right: 16px;
-  font-size: 17px;
+    border: none;
+    float: right;
+    font-size: 17px;
+    margin: 8px 16px 0 0;
+    padding: 6px;
 }
-/*end navigation bar*/
+
+/* Footer. */
+#footer {
+    background-color: #000;
+    bottom: -900px;
+    display: none;
+    height: 300px;
+    position: absolute;
+    width: 100%;
+}
+
+footer a:link,
+footer a:visited {
+    color: #fff;
+    text-decoration: none;
+}
 
 
 /* Table results. */
@@ -73,19 +112,29 @@ tr {
     padding: 0;
 }
 
-td {
+td,
+th {
     margin: 0;
-    padding: 2px 5px;
+    padding: 2px 8px;
 }
 
 tr:nth-child(2n+3) {
-    background: #BBDEFB;
+    background: #bbdefb;
 }
 
-.last {
+.last,
+.first {
     font-size: .8em;
     padding: 5px;
     text-align: center;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
 }
 
 /* Forms. */
@@ -123,17 +172,4 @@ input[type=text] {
 }
 input[type=submit] {
     justify-self: center;
-}
-
-#footer{
-position: absolute;
-  bottom: -900px;
-  width: 100%;
-  height: 300px;
-background-color: #000;
-}
-footer a:link,
-footer a:visited {
-  color: #fff;
-  text-decoration: none;
 }
