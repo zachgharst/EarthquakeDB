@@ -40,9 +40,10 @@ CREATE TABLE city (
 CREATE TABLE policy (
    id INT NOT NULL auto_increment,
    policy_name VARCHAR(50) NOT NULL,
+    type_id INT NOT NULL,
    company_name VARCHAR(50),
    city_id INT NOT NULL,
-   type_id INT NOT NULL,
+ 
    
    PRIMARY KEY(id),
    FOREIGN KEY (city_id) REFERENCES city(id),
