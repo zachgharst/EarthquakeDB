@@ -61,7 +61,7 @@ DROP PROCEDURE IF EXISTS CalculatePremium;
 
 DELIMITER $$
 
-CREATE PROCEDURE CalculatePremium (p_id)
+CREATE PROCEDURE CalculatePremium (p_id INT)
 
 BEGIN
 	DECLARE city_id INT DEFAULT 0;
