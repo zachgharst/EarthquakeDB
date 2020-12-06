@@ -16,12 +16,13 @@ BEGIN
         FROM   city
         WHERE  St_distance_sphere(Point(NEW.longitude, NEW.latitude), Point(
                     city.longitude, city.latitude)) * .000621371192 < radius;  
+                    
     IF(populationInRadius IS NULL) THEN
             SET populationInRadius = 0;
-        END IF;
+	END IF;
     SET NEW.effected_population=populationInRadius;
     
-    CALL GenerateRandomDamage(NEW.id);
+    
 END $$
     
 DELIMITER ;
