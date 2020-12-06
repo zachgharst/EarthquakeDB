@@ -12,6 +12,7 @@ CREATE TABLE earthquake (
     latitude  FLOAT,
     longitude FLOAT,
     mag       FLOAT,
+    effected_population INT,
 
     PRIMARY KEY(id)
 );
