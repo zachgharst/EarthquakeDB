@@ -13,7 +13,7 @@ $content .= "<table><tr><th class=\"left\">Policy Name</th><th class=\"left\">Po
     while ($row = mysqli_fetch_array($result))
     {
             //$content .= "Policy Name: $row[policy_name] | Policy ID: $row[id] | City: $row[name]";
-         $content .= "<tr><td><a href=\"?id=$row[policy_name]\">$row[p_id]</td><td>$row[]</td><td class=\"right\">$row[c_name]</td>";
+         $content .= "<tr><td><a href=\"?id=$row[policy_name]\">$row[p_id]</td><td class=\"right\">$row[c_name]</td>";
             $content .= "<br>";
    }
 
