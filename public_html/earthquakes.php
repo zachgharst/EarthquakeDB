@@ -87,7 +87,7 @@ query;
 
         <table class="right">
             <tr><td colspan="9" class="first">$paging_choices</td></tr>
-            <tr><th class="left">Date</th><th>Time</th><th>Latitude</th><th>Longitude</th><th>Magnitude</th><th>Effected Population</th><th>Economic Cost</th><th>Injuries</th><th>Fatalities</th></tr>
+            <tr><th class="left">Date</th><th>Time</th><th>Location</th><th>Magnitude</th><th>Effected Population</th><th>Economic Cost</th><th>Injuries</th><th>Fatalities</th></tr>
 
 TABLE;
 
@@ -95,7 +95,7 @@ TABLE;
         $row = mysqli_fetch_assoc($result);
         if($row[costs] != NULL) $row[costs] = "\$" . $row[costs];
 
-        $content .= "            <tr><td class=\"left\">$row[formattedDate]</td><td>$row[formattedTime]</td><td>$row[latitude]</td><td>$row[longitude]</td><td>$row[mag]</td><td>$row[effected_population]</td><td>$row[costs]</td><td>$row[injuries]</td><td>$row[fatalities]</td></tr>";
+        $content .= "            <tr><td class=\"left\">$row[formattedDate]</td><td>$row[formattedTime]</td><td><a href=\"https://maps.google.com/maps?z=10&q=$row[latitude]+$row[longitude]\">($row[latitude], $row[longitude])</a></td><td>$row[mag]</td><td>$row[effected_population]</td><td>$row[costs]</td><td>$row[injuries]</td><td>$row[fatalities]</td></tr>";
     }
 
     $content .= <<<TABLE2
