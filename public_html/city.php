@@ -11,6 +11,8 @@
         $cityData = mysqli_fetch_array($cityData);
         $policyData = "select policy.policy_name 
 from policy left join city on policy.id = city.id;"
+             $policyData = mysqli_query($connection, $policyData);
+        $policyData = mysqli_fetch_array($policyData);
 
         if($cityData) {
             $title = "$cityData[name]";
