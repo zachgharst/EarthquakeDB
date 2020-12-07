@@ -9,7 +9,8 @@
         $cityData = "SELECT name, latitude, longitude, country, population FROM city WHERE id = $id";
         $cityData = mysqli_query($connection, $cityData);
         $cityData = mysqli_fetch_array($cityData);
-
+        $policyData = "select policy.policy_name 
+from policy left join city on policy.id = city.id;"
 
         if($cityData) {
             $title = "$cityData[name]";
@@ -29,6 +30,7 @@
                 <li>Country: $cityData[country]</li>
                 <li>Population: $cityData[population]</li>
                 <li>Location: ($cityData[latitude], $cityData[longitude])</li>
+                 <li>Policies: ($policyData[policy_name]</li>
             </ul>";
 
             if($numEQ > 0) {
