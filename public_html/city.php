@@ -102,7 +102,9 @@ from policy left join city on policy.id = city.id";
         while($row = mysqli_fetch_array($citiesData)) {
             $content .= "<tr><td><a href=\"?id=$row[id]\">$row[name]</td><td>$row[country]</td><td class=\"right\">$row[latitude]</td><td class=\"right\">$row[longitude]</td><td class=\"right\">$row[population]</td></tr>";
         }
-
+         while($row = mysqli_fetch_array($policyData)) {
+            $content .= "<tr><td><a href=\"?id=$row[id]\">$row[policy_name]</td>";
+        }
         $content .= <<<TABLE2
         <tr><td colspan="5" class="last">$numCities cities returned of $total_rows.<br>$paging_choices</td></tr>
     </table>
