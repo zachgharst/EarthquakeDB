@@ -10,14 +10,11 @@
         $cityData = mysqli_query($connection, $cityData);
         $cityData = mysqli_fetch_array($cityData);
 
-        $policyData = "select policy.policy_name 
-from policy left join city on policy.id = city.id";
-        $policyData = mysqli_query($connection, $policyData);
-        
-    while($row = mysqli_fetch_array($policyData)) {
-            $content .= "<tr><td><a href=\"?id=$row[id]\">$row[policy_name]</td>";
-        }
         if($cityData) {
+            $policyData = "SELECT policy_name FROM policy WHERE city_id = $id";
+            $policyData = mysqli_query($connection, $policyData);
+            $numPolicies = mysqli_num_rows($policyData);
+
             $title = "$cityData[name]";
             
             $EQData = "SELECT DATE_FORMAT(time, '%M %e, %Y') as time1, TIME(time) as time2, mag, earthquake.latitude, earthquake.longitude, ST_Distance_Sphere(
@@ -34,9 +31,17 @@ from policy left join city on policy.id = city.id";
             <ul>
                 <li>Country: $cityData[country]</li>
                 <li>Population: $cityData[population]</li>
-                <li>Location: ($cityData[latitude], $cityData[longitude])</li>
-                 <li>Policies: aaa</li>
-            </ul>";
+                <li>Location: ($cityData[latitude], $cityData[longitude])</li>";
+
+            if($numPolicies > 0) {
+                $content .= "<li>Policies: ";
+                while($row = mysqli_fetch_array($policyData)) {
+                    $content .= "$row[policy_name], ";
+                }
+                $content .= "</li>";
+            }
+
+            $content .= "</ul>";
 
             if($numEQ > 0) {
                 $content .= "<table><tr><td colspan=\"6\" class=\"first\">$numEQ earthquakes within 50 miles recorded in $cityData[name] this year.</td></tr><tr class=\"right\"><th class=\"left\">Date</th><th>Time</th><th>Latitude</th><th>Longitude</th><th>Magnitude</th><th>Miles from City Center</th></tr>";
