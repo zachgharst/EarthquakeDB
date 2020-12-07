@@ -67,14 +67,16 @@ query;
     $query = $query_no_limit . $query_concat_limit;
 
     /* Generate paging. */
-    $prev_page = $page - 1;
-    $next_page = $page + 1;
+    $first_page = http_build_query(array_merge($_GET,array('page' => 1)));
+    $prev_page = http_build_query(array_merge($_GET,array('page' => $page - 1)));
+    $next_page = http_build_query(array_merge($_GET,array('page' => $page + 1)));
+    $last_page = http_build_query(array_merge($_GET,array('page' => $total_pages)));
 
     $paging_choices = "";
-    if($page != 1) $paging_choices .= "<a href=\"?page=1\">First</a> | <a href=\"?page=$prev_page\">Previous</a> | ";
+    if($page != 1) $paging_choices .= "<a href=\"?$first_page\">First</a> | <a href=\"?$prev_page\">Previous</a> | ";
     else $paging_choices .= "First | Previous | ";
     $paging_choices .= "Page $page of $total_pages | ";
-    $paging_choices .= $page != $total_pages ? "<a href=\"?page=$next_page\">Next</a> | <a href=\"?page=$total_pages\">Last</a>" : "Next | Last";
+    $paging_choices .= $page != $total_pages ? "<a href=\"?$next_page\">Next</a> | <a href=\"?$last_page\">Last</a>" : "Next | Last";
 
     $result = mysqli_query($connection, $query);
     $row_count = mysqli_num_rows($result);
