@@ -70,7 +70,7 @@ query;
     $content = <<<TABLE
 
         <table class="right">
-            <tr><td colspan="8" class="first">$paging_choices</td></tr>
+            <tr><td colspan="9" class="first">$paging_choices</td></tr>
             <tr><th class="left">Date</th><th>Time</th><th>Latitude</th><th>Longitude</th><th>Magnitude</th><th>Effected Population</th><th>Economic Cost</th><th>Injuries</th><th>Fatalities</th></tr>
 
 TABLE;
@@ -83,7 +83,7 @@ TABLE;
     }
 
     $content .= <<<TABLE2
-            <tr><td colspan="8" class="last">$row_count rows returned of $total_rows.<br>$paging_choices</td></tr>
+            <tr><td colspan="9" class="last">$row_count rows returned of $total_rows.<br>$paging_choices</td></tr>
         </table>
 
 TABLE2;

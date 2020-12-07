@@ -94,7 +94,7 @@
         $paging_choices .= "Page $page of $total_pages | ";
         $paging_choices .= $page != $total_pages ? "<a href=\"?page=$next_page\">Next</a> | <a href=\"?page=$total_pages\">Last</a>" : "Next | Last";
 
-        $content .= "<table><tr><td colspan=\"8\" class=\"first\">$paging_choices</td></tr><tr><th class=\"left\">City</th><th class=\"left\">Country</th><th class=\"right\">Latitude</th><th class=\"right\">Longitude</th><th class=\"right\">Population</th></tr>";
+        $content .= "<table><tr><td colspan=\"5\" class=\"first\">$paging_choices</td></tr><tr><th class=\"left\">City</th><th class=\"left\">Country</th><th class=\"right\">Latitude</th><th class=\"right\">Longitude</th><th class=\"right\">Population</th></tr>";
         while($row = mysqli_fetch_array($citiesData)) {
             $content .= "<tr><td><a href=\"?id=$row[id]\">$row[name]</td><td>$row[country]</td><td class=\"right\">$row[latitude]</td><td class=\"right\">$row[longitude]</td><td class=\"right\">$row[population]</td></tr>";
         }
