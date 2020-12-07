@@ -11,7 +11,7 @@
         $cityData = mysqli_fetch_array($cityData);
 
         if($cityData) {
-            $policyData = "SELECT policy_name FROM policy WHERE city_id = $id";
+            $policyData = "SELECT id, policy_name, companyname FROM policy WHERE city_id = $id";
             $policyData = mysqli_query($connection, $policyData);
             $numPolicies = mysqli_num_rows($policyData);
 
@@ -34,11 +34,11 @@
                 <li>Location: ($cityData[latitude], $cityData[longitude])</li>";
 
             if($numPolicies > 0) {
-                $content .= "<li>Policies: ";
+                $content .= "<li>Policies: <ul>";
                 while($row = mysqli_fetch_array($policyData)) {
-                    $content .= "$row[policy_name], ";
+                    $content .= "<li><a href=\"policies.php?id=$row[id]\">$row[policy_name] from $row[companyname]</a></li>";
                 }
-                $content .= "</li>";
+                $content .= "</ul></li>";
             }
 
             $content .= "</ul>";
