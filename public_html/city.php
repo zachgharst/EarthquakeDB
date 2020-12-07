@@ -24,7 +24,6 @@
             $EQData = mysqli_query($connection, $EQData);
             $numEQ = mysqli_num_rows($EQData);
 
-
             $content .= "<h2>$cityData[name]</h2>
             <ul>
                 <li>Country: $cityData[country]</li>
@@ -74,7 +73,37 @@
     }
 
     else {
-        $content = "<p class=\"error\">Please type in the name of a city in the top right portion of the website.</p>";
+
+        $citiesList = "SELECT id, name, latitude, longitude, country, population FROM city ORDER BY population DESC";
+        $total_rows = mysqli_num_rows(mysqli_query($connection, $citiesList));
+        $total_pages = ceil($total_rows / 200);
+
+        if($_GET[page] >= 1 && $_GET[page] <= $total_pages) $page = $_GET[page];
+        else $page = 1;
+        $next_page = $page + 1;
+        $prev_page = $page - 1;
+
+        $offset = ($page - 1) * 200;
+        $citiesListLimited = $citiesList . " LIMIT $offset, 200";
+        $citiesData = mysqli_query($connection, $citiesListLimited);
+        $numCities = mysqli_num_rows($citiesData);
+
+        $paging_choices = "";
+        if($page != 1) $paging_choices .= "<a href=\"?page=1\">First</a> | <a href=\"?page=$prev_page\">Previous</a> | ";
+        else $paging_choices .= "First | Previous | ";
+        $paging_choices .= "Page $page of $total_pages | ";
+        $paging_choices .= $page != $total_pages ? "<a href=\"?page=$next_page\">Next</a> | <a href=\"?page=$total_pages\">Last</a>" : "Next | Last";
+
+        $content .= "<table><tr><td colspan=\"8\" class=\"first\">$paging_choices</td></tr><tr><th class=\"left\">City</th><th class=\"left\">Country</th><th class=\"right\">Latitude</th><th class=\"right\">Longitude</th><th class=\"right\">Population</th></tr>";
+        while($row = mysqli_fetch_array($citiesData)) {
+            $content .= "<tr><td><a href=\"?id=$row[id]\">$row[name]</td><td>$row[country]</td><td class=\"right\">$row[latitude]</td><td class=\"right\">$row[longitude]</td><td class=\"right\">$row[population]</td></tr>";
+        }
+
+        $content .= <<<TABLE2
+        <tr><td colspan="5" class="last">$numCities cities returned of $total_rows.<br>$paging_choices</td></tr>
+    </table>
+
+TABLE2;
     }
 
     include('includes/template.php');
