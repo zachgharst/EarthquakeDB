@@ -44,7 +44,7 @@
             $content .= "</ul>";
 
             if($numEQ > 0) {
-                $content .= "<table><tr><td colspan=\"6\" class=\"first\">$numEQ earthquakes within 50 miles recorded in $cityData[name] this year.</td></tr><tr class=\"right\"><th class=\"left\">Date</th><th>Time</th><th>Latitude</th><th>Longitude</th><th>Magnitude</th><th>Miles from City Center</th></tr>";
+                $content .= "<table><tr><td colspan=\"6\" class=\"first\">$numEQ earthquakes within 50 miles recorded in $cityData[name] this year.</td></tr><tr class=\"right\"><th class=\"left\">Date</th><th>Time</th><th>Magnitude</th><th>Latitude</th><th>Longitude</th><th>Miles from City Center</th></tr>";
                 while($row = mysqli_fetch_array($EQData)) {
                     $row[distance] = round($row[distance], 1);
                     $content .= "<tr class=\"right\"><td class=\"left\">$row[time1]</td><td>$row[time2]</td><td>$row[mag]</td><td>$row[latitude]</td><td>$row[longitude]</td><td>$row[distance]</td></tr>";

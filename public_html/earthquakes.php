@@ -2,6 +2,13 @@
 
     require_once 'includes/db-config.php';
 
+    /* Get cluster view only if cluster ID is set. */
+    $cluster = "";
+    if(isset($_GET[cluster]) && is_numeric($_GET[cluster])) {
+        $cluster = "AND
+        (id IN (SELECT earthquake_id FROM cluster WHERE cluster_id = $_GET[cluster]))";
+    }
+
     /* Sanitize input for query. */
     $mag = is_numeric($_GET[mag]) ? $_GET[mag] : 0;
     if($_GET[mag_direction] == "lt") $mag_direction = "<=";
@@ -43,6 +50,7 @@
         (effected_population $effectedpopulation_direction $effected_population) AND
         (injuries $injuries_direction $injuries) AND
         (fatalities $fatalities_direction $fatalities)
+        $cluster
 query;
 
     $total_rows = mysqli_query($connection, $query_no_limit);
