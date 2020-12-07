@@ -101,8 +101,11 @@ TABLE;
     $content .= <<<TABLE2
             <tr><td colspan="9" class="last">$row_count rows returned of $total_rows.<br>$paging_choices</td></tr>
         </table>
-
 TABLE2;
+
+    if($row_count == 0) {
+        $content = "<p class=\"error\">We couldn't find any earthquakes with that search criteria.</p>";
+    }
 
     include('includes/template.php');
 
