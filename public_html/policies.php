@@ -4,7 +4,8 @@
 
     $title = "Policy";
     $query = "SELECT policy_name, id, city.name
-    FROM policy, city";
+    FROM policy inner join city
+    on policy.id = city.id;
 
     $result = mysqli_query($connection, $query);
 
