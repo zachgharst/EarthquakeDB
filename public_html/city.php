@@ -11,10 +11,6 @@
         $cityData = mysqli_fetch_array($cityData);
 
         if($cityData) {
-            $policyData = "SELECT id, policy_name, companyname FROM policy WHERE city_id = $id";
-            $policyData = mysqli_query($connection, $policyData);
-            $numPolicies = mysqli_num_rows($policyData);
-
             $title = "$cityData[name]";
             
             $EQData = "SELECT DATE_FORMAT(time, '%M %e, %Y') as time1, TIME(time) as time2, mag, earthquake.latitude, earthquake.longitude, ST_Distance_Sphere(
@@ -32,6 +28,11 @@
                 <li>Country: $cityData[country]</li>
                 <li>Population: $cityData[population]</li>
                 <li>Location: ($cityData[latitude], $cityData[longitude])</li>";
+
+            $policyData = "SELECT id, policy_name, companyname FROM policy WHERE city_id = $id";
+            $policyData = mysqli_query($connection, $policyData);
+            $numPolicies = mysqli_num_rows($policyData);
+    
 
             if($numPolicies > 0) {
                 $content .= "<li>Policies: <ul>";

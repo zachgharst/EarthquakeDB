@@ -40,6 +40,10 @@ div#main {
     content: " 🔗";
 }
 
+#main li ul {
+    margin: 0;
+}
+
 /* Header and Navigation bar. */
 h1 {
     color: #fff;
