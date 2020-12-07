@@ -3,7 +3,7 @@
     require_once('includes/db-config.php');
 
     $title = "Policy";
-    $query = "SELECT policy_name, id, city.name
+    $query = "SELECT policy_name, policy.id, city.name
     FROM policy inner join city
     on policy.id = city.id;
 
