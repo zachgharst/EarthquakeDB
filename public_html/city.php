@@ -9,10 +9,11 @@
         $cityData = "SELECT name, latitude, longitude, country, population FROM city WHERE id = $id";
         $cityData = mysqli_query($connection, $cityData);
         $cityData = mysqli_fetch_array($cityData);
+
         $policyData = "select policy.policy_name 
 from policy left join city on policy.id = city.id";
-             $policyData = mysqli_query($connection, $policyData);
-        $policyData = mysqli_fetch_array($policyData);
+        $policyData = mysqli_query($connection, $policyData);
+        
     while($row = mysqli_fetch_array($policyData)) {
             $content .= "<tr><td><a href=\"?id=$row[id]\">$row[policy_name]</td>";
         }
@@ -34,7 +35,7 @@ from policy left join city on policy.id = city.id";
                 <li>Country: $cityData[country]</li>
                 <li>Population: $cityData[population]</li>
                 <li>Location: ($cityData[latitude], $cityData[longitude])</li>
-                 <li>Policies: ($policyData[policy_name]</li>
+                 <li>Policies: aaa</li>
             </ul>";
 
             if($numEQ > 0) {
