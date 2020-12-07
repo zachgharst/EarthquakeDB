@@ -38,6 +38,13 @@ CREATE TABLE city (
     PRIMARY KEY(id)
 );
 
+CREATE TABLE earthquake_city(
+	earthquake_id INT NOT NULL,
+    city_id INT NOT NULL,
+    FOREIGN KEY(earthquake_id) REFERENCES earthquake(id),
+    FOREIGN KEY(city_id) REFERENCES city(id)
+);
+
 CREATE TABLE policy (
    id INT NOT NULL auto_increment,
    policy_name VARCHAR(50) NOT NULL,
