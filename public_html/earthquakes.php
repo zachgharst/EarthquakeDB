@@ -8,6 +8,11 @@
     elseif($_GET[mag_direction] == "eq") $mag_direction = "=";
     else $mag_direction = ">=";
 
+    $effected_population = is_numeric($_GET[effectedpopulation]) && $_GET[effectedpopulation] != 0 ? $_GET[effectedpopulation] : "0 OR effected_population IS NULL";
+    if($_GET[effectedpopulation_direction] == "lt") $effectedpopulation_direction = "<=";
+    elseif($_GET[effectedpopulation_direction] == "eq") $effectedpopulation_direction = "=";
+    else $effectedpopulation_direction = ">=";
+
     $injuries = is_numeric($_GET[injuries]) && $_GET[injuries] != 0 ? $_GET[injuries] : "0 OR injuries IS NULL";
     if($_GET[injuries_direction] == "lt") $injuries_direction = "<=";
     elseif($_GET[injuries_direction] == "eq") $injuries_direction = "=";
@@ -18,7 +23,7 @@
     elseif($_GET[fatalities_direction] == "eq") $fatalities_direction = "=";
     else $fatalities_direction = ">=";
 
-    $sortOptions = ["id", "time", "latitude", "longitude", "mag", "costs", "injuries", "fatalities"];
+    $sortOptions = ["id", "time", "latitude", "longitude", "mag", "effected_population", "costs", "injuries", "fatalities"];
     $sort = in_array($_GET[sort], $sortOptions) ? $_GET[sort] : "id";
     $order = $_GET[order] == "asc" ? "asc" : "desc";
 
@@ -35,6 +40,7 @@
     fatalities
     FROM  earthquake LEFT JOIN damage ON id = earthquake_id WHERE 
         mag $mag_direction $mag AND
+        (effected_population $effectedpopulation_direction $effected_population) AND
         (injuries $injuries_direction $injuries) AND
         (fatalities $fatalities_direction $fatalities)
 query;

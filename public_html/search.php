@@ -17,6 +17,14 @@ $content = <<<SEARCH
                 <label>Latitude</label>
                 <input type="text"><br><br> -->
 
+                <label for="effectedpopulation">Effected Population</label>
+                <select name="effectedpopulation_direction">
+                    <option value="gt">&gt;=</option>
+                    <option value="lt">&lt;=</option>
+                    <option value="eq">=</option>
+                </select>
+                <input id="effectedpopulation" name="effectedpopulation" type="number" value="0"><br>
+
                 <label for="injuries">Injuries</label>
                 <select name="injuries_direction">
                     <option value="gt">&gt;=</option>
@@ -50,6 +58,7 @@ $content = <<<SEARCH
                     <option value="latitude">Latitude</option>
                     <option value="longitude">Longitude</option>
                     <option value="mag">Magnitude</option>
+                    <option value="effected_population">Effected Population</option>
                     <option value="costs">Economic Cost</option>
                     <option value="injuries">Injuries</option>
                     <option value="fatalities">Fatalities</option>
