@@ -3,7 +3,7 @@
     require_once('includes/db-config.php');
 
     $title = "Policy";
-    $query = "SELECT policy_name, policy.id as p_id , city.name as c_name
+    $query = "SELECT policy_name as p_name, policy.id as p_id , city.name as c_name
     FROM policy inner join city
     on policy.city_id = city.id";
 
@@ -13,7 +13,7 @@ $content .= "<table><tr><th class=\"left\">Policy Name</th><th class=\"left\">Po
     while ($row = mysqli_fetch_array($result))
     {
             //$content .= "Policy Name: $row[policy_name] | Policy ID: $row[id] | City: $row[name]";
-         $content .= "<tr><td><a href=\"?id=$row[policy_name]\">$row[p_id]</td><td class=\"right\">$row[c_name]</td></tr>";
+         $content .= "<tr><td><a href=\"?id=$row[p_name]\">$row[p_id]</td><td class=\"right\">$row[c_name]</td></tr>";
            
    }
 
