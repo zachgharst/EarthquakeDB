@@ -50,13 +50,13 @@ CREATE TABLE policy (
    policy_name VARCHAR(50) NOT NULL,
    companyname VARCHAR(50) NOT NULL,
    premium FLOAT DEFAULT NULL,
-    type_id INT NOT NULL,
+   type_id INT NOT NULL,
    city_id INT NOT NULL,
  
    
    PRIMARY KEY(id),
    FOREIGN KEY (city_id) REFERENCES city(id),
-   FOREIGN KEY (type_id) REFERENCES policy_type(typeId)
+   FOREIGN KEY (type_id) REFERENCES policy_type(id)
 );
 
 /* inserting data into polciy*/
