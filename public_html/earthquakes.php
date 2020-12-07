@@ -8,6 +8,11 @@
     elseif($_GET[mag_direction] == "eq") $mag_direction = "=";
     else $mag_direction = ">=";
 
+    $effected_population = is_numeric($_GET[effectedpopulation]) && $_GET[effectedpopulation] != 0 ? $_GET[effectedpopulation] : "0 OR effected_population IS NULL";
+    if($_GET[effectedpopulation_direction] == "lt") $effectedpopulation_direction = "<=";
+    elseif($_GET[effectedpopulation_direction] == "eq") $effectedpopulation_direction = "=";
+    else $effectedpopulation_direction = ">=";
+
     $injuries = is_numeric($_GET[injuries]) && $_GET[injuries] != 0 ? $_GET[injuries] : "0 OR injuries IS NULL";
     if($_GET[injuries_direction] == "lt") $injuries_direction = "<=";
     elseif($_GET[injuries_direction] == "eq") $injuries_direction = "=";
@@ -18,7 +23,7 @@
     elseif($_GET[fatalities_direction] == "eq") $fatalities_direction = "=";
     else $fatalities_direction = ">=";
 
-    $sortOptions = ["id", "time", "latitude", "longitude", "mag", "costs", "injuries", "fatalities"];
+    $sortOptions = ["id", "time", "latitude", "longitude", "mag", "effected_population", "costs", "injuries", "fatalities"];
     $sort = in_array($_GET[sort], $sortOptions) ? $_GET[sort] : "id";
     $order = $_GET[order] == "asc" ? "asc" : "desc";
 
@@ -29,11 +34,13 @@
     latitude,
     longitude,
     mag,
+    effected_population,
     costs,
     injuries,
     fatalities
     FROM  earthquake LEFT JOIN damage ON id = earthquake_id WHERE 
         mag $mag_direction $mag AND
+        (effected_population $effectedpopulation_direction $effected_population) AND
         (injuries $injuries_direction $injuries) AND
         (fatalities $fatalities_direction $fatalities)
 query;
@@ -69,8 +76,8 @@ query;
     $content = <<<TABLE
 
         <table class="right">
-            <tr><td colspan="8" class="first">$paging_choices</td></tr>
-            <tr><th class="left">Date</th><th>Time</th><th>Latitude</th><th>Longitude</th><th>Magnitude</th><th>Economic Cost</th><th>Injuries</th><th>Fatalities</th></tr>
+            <tr><td colspan="9" class="first">$paging_choices</td></tr>
+            <tr><th class="left">Date</th><th>Time</th><th>Latitude</th><th>Longitude</th><th>Magnitude</th><th>Effected Population</th><th>Economic Cost</th><th>Injuries</th><th>Fatalities</th></tr>
 
 TABLE;
 
@@ -78,11 +85,11 @@ TABLE;
         $row = mysqli_fetch_assoc($result);
         if($row[costs] != NULL) $row[costs] = "\$" . $row[costs];
 
-        $content .= "            <tr><td class=\"left\">$row[formattedDate]</td><td>$row[formattedTime]</td><td>$row[latitude]</td><td>$row[longitude]</td><td>$row[mag]</td><td>$row[costs]</td><td>$row[injuries]</td><td>$row[fatalities]</td></tr>";
+        $content .= "            <tr><td class=\"left\">$row[formattedDate]</td><td>$row[formattedTime]</td><td>$row[latitude]</td><td>$row[longitude]</td><td>$row[mag]</td><td>$row[effected_population]</td><td>$row[costs]</td><td>$row[injuries]</td><td>$row[fatalities]</td></tr>";
     }
 
     $content .= <<<TABLE2
-            <tr><td colspan="8" class="last">$row_count rows returned of $total_rows.<br>$paging_choices</td></tr>
+            <tr><td colspan="9" class="last">$row_count rows returned of $total_rows.<br>$paging_choices</td></tr>
         </table>
 
 TABLE2;
