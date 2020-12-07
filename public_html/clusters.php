@@ -20,21 +20,18 @@ FROM   (SELECT cluster_id,
 
     $title = "Clusters";    
     $content = <<<TABLE
-
         <table class="right">
             <tr><td colspan="9" class="first">$paging_choices</td></tr>
             <tr><th class="left">Cluster ID</th><th>Date</th><th>Time</th><th>Magnitude</th><th>Latitude</th><th>Longitude</th><th># of EQ</th></tr>
-
 TABLE;
 
     while($row = mysqli_fetch_assoc($clustersData)) {
-        $content .= "<tr><td>Cluster $row[cluster_id]</td><td>$row[formattedDate]</td><td>$row[formattedTime]</td><td>$row[mag]</td><td>$row[latitude]</td><td>$row[longitude]</td><td>$row[num_earthquakes]</td></tr>";
+        $content .= "<tr><td><a href=\"earthquakes.php?cluster=$row[cluster_id]\">Cluster $row[cluster_id]</a></td><td>$row[formattedDate]</td><td>$row[formattedTime]</td><td>$row[mag]</td><td>$row[latitude]</td><td>$row[longitude]</td><td>$row[num_earthquakes]</td></tr>";
     }
 
     $content .= <<<TABLE2
             <tr><td colspan="9" class="last">$row_count rows returned of $total_rows.<br>$paging_choices</td></tr>
         </table>
-
 TABLE2;
 
     include('includes/template.php');
