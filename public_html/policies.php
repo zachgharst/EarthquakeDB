@@ -9,12 +9,12 @@
 
     $result = mysqli_query($connection, $query);
 
-$content .= "<table><tr><th class=\"left\">Policy Name</th><th class=\"left\">Policy Id</th><th class=\"right\">City</th>";
+$content .= "<table><tr><th class=\"left\">Policy Name</th><th class=\"left\">Policy Id</th><th class=\"right\">City</th></tr>";
     while ($row = mysqli_fetch_array($result))
     {
             //$content .= "Policy Name: $row[policy_name] | Policy ID: $row[id] | City: $row[name]";
-         $content .= "<tr><td><a href=\"?id=$row[policy_name]\">$row[p_id]</td><td class=\"right\">$row[c_name]</td>";
-            $content .= "<br>";
+         $content .= "<tr><td><a href=\"?id=$row[policy_name]\">$row[p_id]</td><td class=\"right\">$row[c_name]</td></tr>";
+           
    }
 
     include('includes/template.php');
