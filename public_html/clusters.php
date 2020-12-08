@@ -17,11 +17,11 @@ FROM   (SELECT cluster_id,
     JOIN earthquake
       ON most_recent_earthquake = id ORDER BY num_earthquakes DESC";
     $clustersData = mysqli_query($connection, $clustersData);
+    $numClusters = mysqli_num_rows($clustersData);
 
     $title = "Clusters";    
     $content = <<<TABLE
         <table class="right">
-            <tr><td colspan="9" class="first">$paging_choices</td></tr>
             <tr><th class="left">Start Date</th><th>Start Time</th><th>Source Location</th><th>Beginning Magnitude</th><th># of EQs</th></tr>
 TABLE;
 
@@ -30,7 +30,7 @@ TABLE;
     }
 
     $content .= <<<TABLE2
-            <tr><td colspan="9" class="last">$row_count rows returned of $total_rows.<br>$paging_choices</td></tr>
+            <tr><td colspan="9" class="last">$numClusters clusters found.</td></tr>
         </table>
 TABLE2;
 

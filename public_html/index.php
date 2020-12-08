@@ -27,7 +27,7 @@ $content = <<<CONTENT
             pre-existing data.</p>
 
             <h3>License</h3>
-            <p>This project is licensed under the terms of the <a href="https://github.com/ZDGharst/CS470_MostFunGroup/blob/main/docs/LICENSE">MIT license</a>.</p>;
+            <p>This project is licensed under the terms of the <a href="https://github.com/ZDGharst/CS470_MostFunGroup/blob/main/docs/LICENSE">MIT license</a>.</p>
 CONTENT;
 include('includes/template.php');
 
