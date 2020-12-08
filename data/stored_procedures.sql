@@ -48,31 +48,31 @@ DROP PROCEDURE IF EXISTS CalculatePremium;
 
 DELIMITER $$
 
-CREATE PROCEDURE CalculatePremium (p_id INT)
+CREATE PROCEDURE CalculatePremium (IN p_id INT)
 
 BEGIN
-    DECLARE city_id INT DEFAULT 0;
+    DECLARE local_city_id INT DEFAULT 0;
     DECLARE count_damages INT DEFAULT 0;
     DECLARE citypricemod INT DEFAULT 0;
-    DECLARE type_id INT DEFAULT 0;
-    DECLARE typepricemod INT DEFAULT 0;
+    DECLARE local_type_id INT DEFAULT 0;
+    DECLARE typepricemod FLOAT DEFAULT 0;
     DECLARE prem FLOAT DEFAULT 0;
         
-    SELECT cityid, typeid
-    INTO city_id, type_id
+    SELECT city_id, type_id
+    INTO local_city_id, local_type_id
     FROM policy
     WHERE id = p_id;
 
-    SELECT pricemodifier
+    SELECT price_modifier
     INTO typepricemod
-    FROM type_policy
-    WHERE type_id = typeid;
+    FROM policy_type
+    WHERE id = local_type_id;
         
     SELECT count(*)
     INTO count_damages
-    FROM damages JOIN earthquake ON earthquake_id = earthquake.id
-    WHERE earthquake.cityid = city_id
-    HAVING costs > 500;
+    FROM damage
+    JOIN earthquake_city ON damage.earthquake_id = earthquake_city.earthquake_id
+    WHERE costs > 500 AND earthquake_city.city_id = local_city_id;
 
     IF(count_damages > 3) THEN
         SET citypricemod = 2;
