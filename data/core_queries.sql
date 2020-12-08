@@ -29,10 +29,15 @@ FROM city
 WHERE St_distance_sphere(Point(-74.01, 40.71),
 	Point(longitude, latitude))
 	* .000621371192 < 20;
-	      
+
+-- Returns the earthquakes larger than a certain magnitude and their effected populations
+SELECT earthquake.id, earthquake.mag, effected_population
+FROM earthquake
+WHERE earthquake.mag >6.0
+ORDER by effected_population DESC;	      
 	      
 -- Returns all of the countries that are not within a certain distance of a certain magnitude of earthquake
--- Runtime of 17 seconds
+-- Runtime went from 17 seconds to .141 seconds by using the junction table
 SELECT DISTINCT city.country FROM city
 WHERE city.country NOT IN
 (SELECT DISTINCT t1.country FROM
