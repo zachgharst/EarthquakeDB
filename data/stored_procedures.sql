@@ -1,11 +1,105 @@
+/* Build a relationship between an earthquake and the cities it affects. */
+DROP PROCEDURE IF EXISTS CreateJunction; 
+
+DELIMITER $$
+
+CREATE PROCEDURE CreateJunction(IN e_id INT)
+BEGIN
+	DECLARE radius FLOAT DEFAULT 0.0;
+    
+    SELECT 2 * mag * mag
+    INTO   radius
+    FROM   earthquake
+    WHERE  id = e_id;
+
+    INSERT INTO earthquake_city
+    SELECT      NEW.id,city.id
+    FROM        city
+    WHERE       St_distance_sphere(Point(NEW.longitude, NEW.latitude), Point(
+                    city.longitude, city.latitude)) * .000621371192 < radius;
+    
+END $$
+
+DELIMITER ;
+
+
+/* Find the population affected by an earthquake. */
+DROP PROCEDURE IF EXISTS FindPopulation; 
+
+DELIMITER $$
+
+CREATE PROCEDURE FindPopulation(IN e_id INT)
+BEGIN
+	DECLARE radius FLOAT DEFAULT 0.0;
+    DECLARE populationInRadius FLOAT DEFAULT 0;
+    
+    SELECT SUM(population)
+    INTO   populationInRadius
+    FROM   city
+    WHERE  id IN (
+        SELECT city_id
+        FROM   earthquake_city
+        WHERE  earthquake_id = e_id
+    );
+                    
+    IF(populationInRadius IS NULL) THEN
+        SET populationInRadius = 0;
+	END IF;
+
+    UPDATE earthquake
+    SET affected_population = populationInRadius
+    WHERE id = e_id;
+END $$
+    
+DELIMITER ;
+
+
+/* Find earthquakes that have commonalities with other earthquakes. */
+DROP PROCEDURE IF EXISTS FindCluster; 
+
+DELIMITER $$
+
+CREATE PROCEDURE FindCluster(IN e_id INT)
+BEGIN
+    DECLARE radius FLOAT DEFAULT 10.0;
+    DECLARE magnitude FLOAT DEFAULT 0.0;
+
+    SELECT mag
+    INTO   magnitude
+    FROM   earthquake
+    WHERE  id = e_id;
+
+    IF magnitude > 5.0 THEN
+        INSERT INTO cluster
+        SELECT t1.cluster_id, NEW.id
+        FROM
+        (SELECT cluster_id,
+        latitude,
+        longitude,
+        time,
+        num_earthquakes
+        FROM   (SELECT cluster_id,
+                Min(earthquake_id) AS most_recent_earthquake,
+                Count(*)           AS num_earthquakes
+        FROM   cluster
+        GROUP  BY cluster_id) AS first_eq_in_cluster
+        JOIN earthquake
+            ON most_recent_earthquake = id) t1
+            WHERE  St_distance_sphere(Point(NEW.longitude, NEW.latitude), Point(
+                    t1.longitude, t1.latitude)) * .000621371192 < radius;  
+        
+    END IF;
+END $$
+    
+DELIMITER ;
+
+
+/* Generate damage based on the size of the earthquake and where it happens. */
 DROP PROCEDURE IF EXISTS GenerateRandomDamage;
 
 DELIMITER $$
 
-CREATE PROCEDURE GenerateRandomDamage(
-	IN e_id INT
-)
-
+CREATE PROCEDURE GenerateRandomDamage(IN e_id INT)
 BEGIN
     DECLARE radius FLOAT DEFAULT 0;
     DECLARE economicDamage INT DEFAULT 0;
@@ -36,19 +130,21 @@ BEGIN
             SET fatalities = POWER(5, magnitude)     / 20000 * population / 1000000 * LOG(10, RAND()*31+1);
 
             /* Return the values. */
-            INSERT INTO damage (earthquake_id, costs, injuries, fatalities) VALUES (e_id, economicDamage, injuries, fatalities);
+            INSERT INTO damage (earthquake_id, costs, injuries, fatalities)
+            VALUES      (e_id, economicDamage, injuries, fatalities);
         END IF;
     END IF;
 END$$
 
 DELIMITER ;
 
+
+/* Calculate the premium of a policy based on the city and type of policy. */
 DROP PROCEDURE IF EXISTS CalculatePremium;
 
 DELIMITER $$
 
 CREATE PROCEDURE CalculatePremium (IN p_id INT)
-
 BEGIN
     DECLARE local_city_id INT DEFAULT 0;
     DECLARE count_damages INT DEFAULT 0;
@@ -77,7 +173,10 @@ BEGIN
     END IF;
 
     SET prem = (500 * typepricemod * citypricemod);
-    UPDATE policy SET premium = prem WHERE id = p_id;
+
+    UPDATE policy
+    SET premium = prem
+    WHERE id = p_id;
 END$$
 
 DELIMITER ;
