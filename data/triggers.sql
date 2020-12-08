@@ -9,7 +9,7 @@ BEGIN
     CALL CreateJunction(NEW.id);
     CALL FindPopulation(NEW.id);
     CALL FindCluster(NEW.id);
-  	CALL GenerateRandomDamage(NEW.id);
+    CALL GenerateRandomDamage(NEW.id);
 END $$
     
 DELIMITER ;
