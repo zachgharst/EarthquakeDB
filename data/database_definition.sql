@@ -76,9 +76,23 @@ CREATE TABLE policy_type (
    PRIMARY KEY(id)
 );
 
+CREATE TABLE cluster(
+   cluster_id INT NOT NULL,
+   earthquake_id INT NOT NULL,
+   FOREIGN KEY(earthquake_id) REFERENCES earthquake(id)
+);
+
+
 INSERT INTO `policy_type`
 VALUES (1, 'Personal Property Coverage', 1.5), (2, 'Additional Living Expenses (ALE)', 2), (3, 'Dwelling Coverage', 3), (4, 'Bundle Dwelling + ALE', 5), (5, 'Bundle All', 7);
 /* BEFORE ANY DATA CAN BE LOADED, THE STORED PROCEDURES AND TRIGGERS SHOULD BE CREATED. */
+
+INSERT INTO cluster
+   SELECT DISTINCT clusterid, q1id FROM clusterview3;
+
+INSERT INTO cluster
+   SELECT clusterid, q2id FROM clusterview3;
+
 
 -- Matt
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/eqdata.csv'
