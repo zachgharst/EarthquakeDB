@@ -6,16 +6,18 @@ DELIMITER $$
 CREATE PROCEDURE CreateJunction(IN e_id INT)
 BEGIN
 	DECLARE radius FLOAT DEFAULT 0.0;
+    DECLARE local_latitude FLOAT DEFAULT 0.0;
+    DECLARE local_longitude FLOAT DEFAULT 0.0;
     
-    SELECT 2 * mag * mag
-    INTO   radius
+    SELECT 2 * mag * mag, latitude, longitude
+    INTO   radius, local_latitude, local_longitude
     FROM   earthquake
     WHERE  id = e_id;
 
     INSERT INTO earthquake_city
-    SELECT      NEW.id,city.id
+    SELECT      e_id,city.id
     FROM        city
-    WHERE       St_distance_sphere(Point(NEW.longitude, NEW.latitude), Point(
+    WHERE       St_distance_sphere(Point(local_longitude, local_latitude), Point(
                     city.longitude, city.latitude)) * .000621371192 < radius;
     
 END $$
@@ -28,27 +30,21 @@ DROP PROCEDURE IF EXISTS FindPopulation;
 
 DELIMITER $$
 
-CREATE PROCEDURE FindPopulation(IN e_id INT)
+CREATE PROCEDURE FindPopulation(IN e_id INT, IN mag FLOAT, IN latitude FLOAT, IN longitude FLOAT, OUT populationInRadius FLOAT)
 BEGIN
 	DECLARE radius FLOAT DEFAULT 0.0;
-    DECLARE populationInRadius FLOAT DEFAULT 0;
     
-    SELECT SUM(population)
+    SET radius = 2 * mag * mag;
+    
+    SELECT Sum(population)
     INTO   populationInRadius
     FROM   city
-    WHERE  id IN (
-        SELECT city_id
-        FROM   earthquake_city
-        WHERE  earthquake_id = e_id
-    );
+    WHERE  St_distance_sphere(Point(longitude, latitude), Point(
+                city.longitude, city.latitude)) * .000621371192 < radius;  
                     
     IF(populationInRadius IS NULL) THEN
         SET populationInRadius = 0;
 	END IF;
-
-    UPDATE earthquake
-    SET affected_population = populationInRadius
-    WHERE id = e_id;
 END $$
     
 DELIMITER ;
@@ -63,15 +59,17 @@ CREATE PROCEDURE FindCluster(IN e_id INT)
 BEGIN
     DECLARE radius FLOAT DEFAULT 10.0;
     DECLARE magnitude FLOAT DEFAULT 0.0;
+    DECLARE local_latitude FLOAT DEFAULT 0.0;
+    DECLARE local_longitude FLOAT DEFAULT 0.0;
 
-    SELECT mag
-    INTO   magnitude
+    SELECT mag, latitude, longitude
+    INTO   magnitude, local_latitude, local_longitude
     FROM   earthquake
     WHERE  id = e_id;
 
     IF magnitude > 5.0 THEN
         INSERT INTO cluster
-        SELECT t1.cluster_id, NEW.id
+        SELECT t1.cluster_id, e_id
         FROM
         (SELECT cluster_id,
         latitude,
@@ -85,7 +83,7 @@ BEGIN
         GROUP  BY cluster_id) AS first_eq_in_cluster
         JOIN earthquake
             ON most_recent_earthquake = id) t1
-            WHERE  St_distance_sphere(Point(NEW.longitude, NEW.latitude), Point(
+            WHERE  St_distance_sphere(Point(local_longitude, local_latitude), Point(
                     t1.longitude, t1.latitude)) * .000621371192 < radius;  
         
     END IF;
