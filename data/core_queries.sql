@@ -36,12 +36,9 @@ WHERE St_distance_sphere(Point(-74.01, 40.71),
 SELECT DISTINCT city.country FROM city
 WHERE city.country NOT IN
 (SELECT DISTINCT t1.country FROM
-(SELECT city.country,  ST_Distance_Sphere(
-    point(t2.longitude, t2.latitude),
-    point(city.longitude, city.latitude )
-) * .000621371192 AS distance 
-FROM (SELECT * FROM earthquake WHERE mag > 6.0) t2, city
-HAVING distance < 500.0
+(SELECT * FROM 
+	city INNER JOIN earthquake_city
+    ON earthquake_city.city_id=city.id
 ) t1);
 
 -- Returns the earthquakes and the population within a certain distance of it's center
