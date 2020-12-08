@@ -43,7 +43,6 @@ END$$
 
 DELIMITER ;
 
-		
 DROP PROCEDURE IF EXISTS CalculatePremium;
 
 DELIMITER $$
@@ -54,19 +53,14 @@ BEGIN
     DECLARE local_city_id INT DEFAULT 0;
     DECLARE count_damages INT DEFAULT 0;
     DECLARE citypricemod INT DEFAULT 0;
-    DECLARE local_type_id INT DEFAULT 0;
     DECLARE typepricemod FLOAT DEFAULT 0;
     DECLARE prem FLOAT DEFAULT 0;
         
-    SELECT city_id, type_id
-    INTO local_city_id, local_type_id
+    SELECT city_id, price_modifier
+    INTO local_city_id, typepricemod
     FROM policy
-    WHERE id = p_id;
-
-    SELECT price_modifier
-    INTO typepricemod
-    FROM policy_type
-    WHERE id = local_type_id;
+    JOIN policy_type ON type_id = policy_type.id
+    WHERE policy.id = p_id;
         
     SELECT count(*)
     INTO count_damages
