@@ -47,12 +47,12 @@ CREATE TABLE earthquake_city (
 );
 
 CREATE TABLE policy (
-   id          INT NOT NULL auto_increment,
-   policy_name VARCHAR(50) NOT NULL,
-   companyname VARCHAR(50) NOT NULL,
-   premium     FLOAT DEFAULT NULL,
-   type_id     INT NOT NULL,
-   city_id     INT NOT NULL,
+   id           INT NOT NULL auto_increment,
+   policy_name  VARCHAR(50) NOT NULL,
+   company_name VARCHAR(50) NOT NULL,
+   premium      FLOAT DEFAULT NULL,
+   type_id      INT NOT NULL,
+   city_id      INT NOT NULL,
  
    PRIMARY KEY(id),
    FOREIGN KEY(city_id) REFERENCES city(id),
