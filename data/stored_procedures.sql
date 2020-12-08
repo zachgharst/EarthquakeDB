@@ -14,7 +14,7 @@ BEGIN
     DECLARE magnitude FLOAT DEFAULT 0;
     DECLARE population INT DEFAULT 0;
 
-    SELECT mag, effected_population
+    SELECT mag, affected_population
     INTO   magnitude, population
     FROM   earthquake
     WHERE  id = e_id;
@@ -51,41 +51,39 @@ DELIMITER $$
 CREATE PROCEDURE CalculatePremium (p_id INT)
 
 BEGIN
-	DECLARE city_id INT DEFAULT 0;
-	DECLARE count_damages INT DEFAULT 0;
-	DECLARE citypricemod INT DEFAULT 0;
-	DECLARE type_id INT DEFAULT 0;
-	DECLARE typepricemod INT DEFAULT 0;
-	DECLARE price FLOAT DEFAULT 0;
-		
-	SELECT cityid, typeid
-	INTO city_id, type_id
-	FROM policy
-	WHERE p_id = policy.id;
-	
-	SELECT pricemodifier
-	INTO typepricemod
-	FROM type_policy
-	WHERE type_id = typeid;
-		
-	SELECT count(*)
-	INTO count_damages
-	FROM damages JOIN earthquake ON earthquake_id = earthquake.id
-	WHERE earthquake.cityid = city_id
-	HAVING costs > 500;
-	
-	IF(count_damages > 3) THEN
-		citypricemod = 2;
-	IF(count_damages < 3) THEN 
-		citypricemod = 1;
-		
-	prem = (500 * typepricemod * citypricemod);
-	INSERT INTO policy (premium) VALUES (prem);
-		
+    DECLARE city_id INT DEFAULT 0;
+    DECLARE count_damages INT DEFAULT 0;
+    DECLARE citypricemod INT DEFAULT 0;
+    DECLARE type_id INT DEFAULT 0;
+    DECLARE typepricemod INT DEFAULT 0;
+    DECLARE prem FLOAT DEFAULT 0;
+        
+    SELECT cityid, typeid
+    INTO city_id, type_id
+    FROM policy
+    WHERE id = p_id;
+
+    SELECT pricemodifier
+    INTO typepricemod
+    FROM type_policy
+    WHERE type_id = typeid;
+        
+    SELECT count(*)
+    INTO count_damages
+    FROM damages JOIN earthquake ON earthquake_id = earthquake.id
+    WHERE earthquake.cityid = city_id
+    HAVING costs > 500;
+
+    IF(count_damages > 3) THEN
+        SET citypricemod = 2;
+    END IF;
+
+    IF(count_damages < 3) THEN 
+        SET citypricemod = 1;
+    END IF;
+
+    SET prem = (500 * typepricemod * citypricemod);
+    UPDATE policy SET premium = prem WHERE id = p_id;
 END$$
-		
-DELIMITER;
 
-		
-		
-
+DELIMITER ;
