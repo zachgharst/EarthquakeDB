@@ -6,7 +6,6 @@ $content = <<<CONTENT
             <h3>Introduction</h3>
             <p>This project is an implementation of an earthquake database created as a team (named MostFunGroup) for COMP-SCI 470 at UMKC.
             COMP-SCI 470 is Introduction to Database Management Systems. We are examining the organization and relationships of earthquake data.</p>
-            <p>Authors: Anna Johnson, Zach Gharst, Matt Miller, Ahmed Boukhousse </p>
 
             <h3>Earthquake DB</h3>
             <p>The database stores various information about earthquakes, such as the date/time, location, magnitude, and if it has created a tsunami.
