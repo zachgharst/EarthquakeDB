@@ -112,11 +112,8 @@ BEGIN
     WHERE  id = e_id;
 
     /* There is a 75% chance that there is no damage if an earthquake
-     * has a magnitude of smaller than 5. */
+     * has a magnitude smaller than 5. */
     IF magnitude >= 5 || RAND() > 0.75 THEN
-        
-
-
         IF population != 0 THEN
             /* Generate the damage. 5^magnitude * Constant * Population Bias * Skew
             * Generate random number between 1 and 32 and pass through LOG().
@@ -127,7 +124,6 @@ BEGIN
             SET injuries = POWER(5, magnitude)       / 1000  * population / 1000000 * LOG(10, RAND()*31+1);
             SET fatalities = POWER(5, magnitude)     / 20000 * population / 1000000 * LOG(10, RAND()*31+1);
 
-            /* Return the values. */
             INSERT INTO damage (earthquake_id, costs, injuries, fatalities)
             VALUES      (e_id, economicDamage, injuries, fatalities);
         END IF;
