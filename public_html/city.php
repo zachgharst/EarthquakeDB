@@ -11,10 +11,6 @@
         $cityData = mysqli_fetch_array($cityData);
 
         if($cityData) {
-            $policyData = "SELECT policy_name FROM policy WHERE city_id = $id";
-            $policyData = mysqli_query($connection, $policyData);
-            $numPolicies = mysqli_num_rows($policyData);
-
             $title = "$cityData[name]";
             
             $EQData = "SELECT DATE_FORMAT(time, '%M %e, %Y') as time1, TIME(time) as time2, mag, earthquake.latitude, earthquake.longitude, ST_Distance_Sphere(
@@ -33,21 +29,26 @@
                 <li>Population: $cityData[population]</li>
                 <li>Location: ($cityData[latitude], $cityData[longitude])</li>";
 
+            $policyData = "SELECT id, policy_name, companyname FROM policy WHERE city_id = $id";
+            $policyData = mysqli_query($connection, $policyData);
+            $numPolicies = mysqli_num_rows($policyData);
+    
+
             if($numPolicies > 0) {
-                $content .= "<li>Policies: ";
+                $content .= "<li>Policies: <ul>";
                 while($row = mysqli_fetch_array($policyData)) {
-                    $content .= "$row[policy_name], ";
+                    $content .= "<li><a href=\"policies.php?id=$row[id]\">$row[policy_name] from $row[companyname]</a></li>";
                 }
-                $content .= "</li>";
+                $content .= "</ul></li>";
             }
 
             $content .= "</ul>";
 
             if($numEQ > 0) {
-                $content .= "<table><tr><td colspan=\"6\" class=\"first\">$numEQ earthquakes within 50 miles recorded in $cityData[name] this year.</td></tr><tr class=\"right\"><th class=\"left\">Date</th><th>Time</th><th>Magnitude</th><th>Latitude</th><th>Longitude</th><th>Miles from City Center</th></tr>";
+                $content .= "<table><tr><td colspan=\"6\" class=\"first\">$numEQ earthquakes within 50 miles recorded in $cityData[name] this year.</td></tr><tr class=\"right\"><th class=\"left\">Date</th><th>Time</th><th>Magnitude</th><th>Location</th><th>Miles from City Center</th></tr>";
                 while($row = mysqli_fetch_array($EQData)) {
                     $row[distance] = round($row[distance], 1);
-                    $content .= "<tr class=\"right\"><td class=\"left\">$row[time1]</td><td>$row[time2]</td><td>$row[mag]</td><td>$row[latitude]</td><td>$row[longitude]</td><td>$row[distance]</td></tr>";
+                    $content .= "<tr class=\"right\"><td class=\"left\">$row[time1]</td><td>$row[time2]</td><td>$row[mag]</td><td><a href=\"https://maps.google.com/maps?z=10&q=$row[latitude]+$row[longitude]\">($row[latitude], $row[longitude])</a></td><td>$row[distance]</td></tr>";
                 }
                 $content .= "</table>";
             }
@@ -71,9 +72,9 @@
         $numCities = mysqli_num_rows($citiesList);
 
         if($numCities > 0) {
-            $content .= "<table><tr><th class=\"left\">City</th><th class=\"left\">Country</th><th class=\"right\">Latitude</th><th class=\"right\">Longitude</th><th class=\"right\">Population</th></tr>";
+            $content .= "<table><tr><th class=\"left\">City</th><th class=\"left\">Country</th><th class=\"right\">Location</th><th class=\"right\">Population</th></tr>";
             while($row = mysqli_fetch_array($citiesList)) {
-                $content .= "<tr><td><a href=\"?id=$row[id]\">$row[name]</td><td>$row[country]</td><td class=\"right\">$row[latitude]</td><td class=\"right\">$row[longitude]</td><td class=\"right\">$row[population]</td></tr>";
+                $content .= "<tr><td><a href=\"?id=$row[id]\">$row[name]</td><td>$row[country]</td><td class=\"right\"><a href=\"https://maps.google.com/maps?z=10&q=$row[latitude]+$row[longitude]\">($row[latitude], $row[longitude])</a></td><td class=\"right\">$row[population]</td></tr>";
             }
             $content .= "<tr><td colspan=\"5\" class=\"last\">$numCities cities found.</td></tr>";
 
@@ -106,9 +107,9 @@
         $paging_choices .= "Page $page of $total_pages | ";
         $paging_choices .= $page != $total_pages ? "<a href=\"?page=$next_page\">Next</a> | <a href=\"?page=$total_pages\">Last</a>" : "Next | Last";
 
-        $content .= "<table><tr><td colspan=\"5\" class=\"first\">$paging_choices</td></tr><tr><th class=\"left\">City</th><th class=\"left\">Country</th><th class=\"right\">Latitude</th><th class=\"right\">Longitude</th><th class=\"right\">Population</th></tr>";
+        $content .= "<table><tr><td colspan=\"5\" class=\"first\">$paging_choices</td></tr><tr><th class=\"left\">City</th><th class=\"left\">Country</th><th class=\"right\">Location</th><th class=\"right\">Population</th></tr>";
         while($row = mysqli_fetch_array($citiesData)) {
-            $content .= "<tr><td><a href=\"?id=$row[id]\">$row[name]</td><td>$row[country]</td><td class=\"right\">$row[latitude]</td><td class=\"right\">$row[longitude]</td><td class=\"right\">$row[population]</td></tr>";
+            $content .= "<tr><td><a href=\"?id=$row[id]\">$row[name]</td><td>$row[country]</td><td class=\"right\"><a href=\"https://maps.google.com/maps?z=10&q=$row[latitude]+$row[longitude]\">($row[latitude], $row[longitude])</a></td><td class=\"right\">$row[population]</td></tr>";
         }
          
         $content .= <<<TABLE2

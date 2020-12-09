@@ -7,24 +7,24 @@ GRANT ALL PRIVILEGES ON earthquake_data.* TO 'username'@'localhost';
 USE earthquake_data;
 
 CREATE TABLE earthquake (
-    id        INT NOT NULL auto_increment,
-    time      DATETIME NOT NULL,
-    latitude  FLOAT,
-    longitude FLOAT,
-    mag       FLOAT,
-    effected_population INT,
+    id                  INT NOT NULL auto_increment,
+    time                DATETIME NOT NULL,
+    latitude            FLOAT,
+    longitude           FLOAT,
+    mag                 FLOAT,
+    affected_population INT,
 
     PRIMARY KEY(id)
 );
 
 CREATE TABLE damage (
     earthquake_id INT NOT NULL,
-    costs INT unsigned DEFAULT NULL,
-    injuries INT unsigned DEFAULT NULL,
-    fatalities INT unsigned DEFAULT NULL,
-    tsunami BOOLEAN DEFAULT NULL,
+    costs         INT unsigned DEFAULT NULL,
+    injuries      INT unsigned DEFAULT NULL,
+    fatalities    INT unsigned DEFAULT NULL,
+    tsunami       BOOLEAN DEFAULT NULL,
 
-    FOREIGN KEY (earthquake_id) REFERENCES earthquake(id)
+    FOREIGN KEY(earthquake_id) REFERENCES earthquake(id)
 );
 
 CREATE TABLE city (
@@ -38,35 +38,26 @@ CREATE TABLE city (
     PRIMARY KEY(id)
 );
 
-CREATE TABLE earthquake_city(
+CREATE TABLE earthquake_city (
 	earthquake_id INT NOT NULL,
-    city_id INT NOT NULL,
+    city_id       INT NOT NULL,
+
     FOREIGN KEY(earthquake_id) REFERENCES earthquake(id),
-    FOREIGN KEY(city_id) REFERENCES city(id)
+    FOREIGN KEY(city_id)       REFERENCES city(id)
 );
 
 CREATE TABLE policy (
-   id INT NOT NULL auto_increment,
-   policy_name VARCHAR(50) NOT NULL,
-   companyname VARCHAR(50) NOT NULL,
-   premium FLOAT DEFAULT NULL,
-   type_id INT NOT NULL,
-   city_id INT NOT NULL,
+   id           INT NOT NULL auto_increment,
+   policy_name  VARCHAR(50) NOT NULL,
+   company_name VARCHAR(50) NOT NULL,
+   premium      FLOAT DEFAULT NULL,
+   type_id      INT NOT NULL,
+   city_id      INT NOT NULL,
  
-   
    PRIMARY KEY(id),
-   FOREIGN KEY (city_id) REFERENCES city(id),
-   FOREIGN KEY (type_id) REFERENCES policy_type(id)
+   FOREIGN KEY(city_id) REFERENCES city(id),
+   FOREIGN KEY(type_id) REFERENCES policy_type(id)
 );
-
-/* inserting data into polciy*/
-
-INSERT INTO `policy`
-VALUES (1, 'Grade A', 'Blue Sky', 0, 1, 1), (2, 'Quartz', 'State Farm', 0, 1, 1), (3, 'Ruby', 'State Farm', 0, 2, 1), (4, 'Emerald', 'State Farm', 0, 3, 1), 
-(5, 'Grade A', 'Blue Sky', 1, 2), (6, 'Grade B', 'Blue Sky', 0, 2, 2), (7, 'Grade C', 'Blue Sky', 0, 3, 2), (8, 'Basic', 'Travelers', 0, 1, 2), (9, 'Bronze', 'Insurify', 0, 1, 3),
-(10, 'Plus', 'Insurify', 0, 2, 3), (11, 'Prime', 'Travelers', 0, 3, 3), (12, 'Grade A', 'Blue Sky', 0, 1, 4), (13, 'Grade B', 'Blue Sky', 0, 2, 4), (14, 'Platinum', 'Insurify', 0, 5, 4),
-(15, 'Plus', 'Travelers', 0, 3, 4), (16, 'Sapphire', 'State Farm', 0, 4, 4), (17, 'Diamond', 'State Farm', 0, 5, 4), (18, 'Sapphire', 'State Farm', 0, 4, 5), (19, 'Basic', 'Travelers', 0, 1, 5),
-(20, 'Prime', 'Travelers', 0, 5, 5), (21, 'Gold', 'Insurify', 0, 4, 6), (22, 'Ruby', 'State Farm', 0, 2, 6), (23, 'Emerald', 'State Farm', 0, 3, 6);
 
 CREATE TABLE policy_type (
    id INT NOT NULL auto_increment,
@@ -76,8 +67,6 @@ CREATE TABLE policy_type (
    PRIMARY KEY(id)
 );
 
-INSERT INTO `policy_type`
-VALUES (1, 'Personal Property Coverage', 1.5), (2, 'Additional Living Expenses (ALE)', 2), (3, 'Dwelling Coverage', 3), (4, 'Bundle Dwelling + ALE', 5), (5, 'Bundle All', 7);
 /* BEFORE ANY DATA CAN BE LOADED, THE STORED PROCEDURES AND TRIGGERS SHOULD BE CREATED. */
 
 -- Matt
@@ -105,3 +94,39 @@ FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
+
+INSERT INTO `policy`
+(policy_name, companyname, type_id, city_id)
+VALUES
+('Grade A', 'Blue Sky', 1, 1),
+('Quartz', 'State Farm', 1, 1),
+('Ruby', 'State Farm', 2, 1),
+('Emerald', 'State Farm', 3, 1), 
+('Grade A', 'Blue Sky', 1, 2),
+('Grade B', 'Blue Sky', 2, 2),
+('Grade C', 'Blue Sky', 3, 2),
+('Basic', 'Travelers', 1, 2),
+('Bronze', 'Insurify', 1, 3),
+('Plus', 'Insurify', 2, 3),
+('Prime', 'Travelers', 3, 3),
+('Grade A', 'Blue Sky', 1, 4),
+('Grade B', 'Blue Sky', 2, 4),
+('Platinum', 'Insurify', 5, 4),
+('Plus', 'Travelers', 3, 4),
+('Sapphire', 'State Farm', 4, 4),
+('Diamond', 'State Farm', 5, 4),
+('Sapphire', 'State Farm', 4, 5),
+('Basic', 'Travelers', 1, 5),
+('Prime', 'Travelers', 5, 5),
+('Gold', 'Insurify', 4, 6),
+('Ruby', 'State Farm', 2, 6),
+('Emerald', 'State Farm', 3, 6);
+
+INSERT INTO `policy_type`
+(type_name, price_modifier)
+VALUES
+('Personal Property Coverage', 1.5),
+('Additional Living Expenses (ALE)', 2),
+('Dwelling Coverage', 3),
+('Bundle Dwelling + ALE', 5),
+('Bundle All', 7);

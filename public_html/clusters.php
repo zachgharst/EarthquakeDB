@@ -15,22 +15,22 @@ FROM   (SELECT cluster_id,
      FROM   cluster
      GROUP  BY cluster_id) AS first_eq_in_cluster
     JOIN earthquake
-      ON most_recent_earthquake = id";
+      ON most_recent_earthquake = id ORDER BY num_earthquakes DESC";
     $clustersData = mysqli_query($connection, $clustersData);
+    $numClusters = mysqli_num_rows($clustersData);
 
     $title = "Clusters";    
     $content = <<<TABLE
         <table class="right">
-            <tr><td colspan="9" class="first">$paging_choices</td></tr>
-            <tr><th class="left">Cluster ID</th><th>Date</th><th>Time</th><th>Magnitude</th><th>Latitude</th><th>Longitude</th><th># of EQ</th></tr>
+            <tr><th class="left">Start Date</th><th>Start Time</th><th>Source Location</th><th>Beginning Magnitude</th><th># of EQs</th></tr>
 TABLE;
 
     while($row = mysqli_fetch_assoc($clustersData)) {
-        $content .= "<tr><td><a href=\"earthquakes.php?cluster=$row[cluster_id]\">Cluster $row[cluster_id]</a></td><td>$row[formattedDate]</td><td>$row[formattedTime]</td><td>$row[mag]</td><td>$row[latitude]</td><td>$row[longitude]</td><td>$row[num_earthquakes]</td></tr>";
+        $content .= "<tr><td class=\"left\"><a href=\"earthquakes.php?cluster=$row[cluster_id]\">$row[formattedDate]</a></td><td>$row[formattedTime]</td><td><a href=\"https://maps.google.com/maps?z=10&q=$row[latitude]+$row[longitude]\">($row[latitude], $row[longitude])</a></td><td>$row[mag]</td><td>$row[num_earthquakes]</td></tr>";
     }
 
     $content .= <<<TABLE2
-            <tr><td colspan="9" class="last">$row_count rows returned of $total_rows.<br>$paging_choices</td></tr>
+            <tr><td colspan="9" class="last">$numClusters clusters found.</td></tr>
         </table>
 TABLE2;
 

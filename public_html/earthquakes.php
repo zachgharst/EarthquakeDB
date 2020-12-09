@@ -15,10 +15,10 @@
     elseif($_GET[mag_direction] == "eq") $mag_direction = "=";
     else $mag_direction = ">=";
 
-    $effected_population = is_numeric($_GET[effectedpopulation]) && $_GET[effectedpopulation] != 0 ? $_GET[effectedpopulation] : "0 OR effected_population IS NULL";
-    if($_GET[effectedpopulation_direction] == "lt") $effectedpopulation_direction = "<=";
-    elseif($_GET[effectedpopulation_direction] == "eq") $effectedpopulation_direction = "=";
-    else $effectedpopulation_direction = ">=";
+    $affected_population = is_numeric($_GET[affectedpopulation]) && $_GET[affectedpopulation] != 0 ? $_GET[affectedpopulation] : "0 OR affected_population IS NULL";
+    if($_GET[affectedpopulation_direction] == "lt") $affectedpopulation_direction = "<=";
+    elseif($_GET[affectedpopulation_direction] == "eq") $affectedpopulation_direction = "=";
+    else $affectedpopulation_direction = ">=";
 
     $injuries = is_numeric($_GET[injuries]) && $_GET[injuries] != 0 ? $_GET[injuries] : "0 OR injuries IS NULL";
     if($_GET[injuries_direction] == "lt") $injuries_direction = "<=";
@@ -30,7 +30,7 @@
     elseif($_GET[fatalities_direction] == "eq") $fatalities_direction = "=";
     else $fatalities_direction = ">=";
 
-    $sortOptions = ["id", "time", "latitude", "longitude", "mag", "effected_population", "costs", "injuries", "fatalities"];
+    $sortOptions = ["id", "time", "latitude", "longitude", "mag", "affected_population", "costs", "injuries", "fatalities"];
     $sort = in_array($_GET[sort], $sortOptions) ? $_GET[sort] : "id";
     $order = $_GET[order] == "asc" ? "asc" : "desc";
 
@@ -41,13 +41,13 @@
     latitude,
     longitude,
     mag,
-    effected_population,
+    affected_population,
     costs,
     injuries,
     fatalities
     FROM  earthquake LEFT JOIN damage ON id = earthquake_id WHERE 
         mag $mag_direction $mag AND
-        (effected_population $effectedpopulation_direction $effected_population) AND
+        (affected_population $affectedpopulation_direction $affected_population) AND
         (injuries $injuries_direction $injuries) AND
         (fatalities $fatalities_direction $fatalities)
         $cluster
@@ -67,14 +67,16 @@ query;
     $query = $query_no_limit . $query_concat_limit;
 
     /* Generate paging. */
-    $prev_page = $page - 1;
-    $next_page = $page + 1;
+    $first_page = http_build_query(array_merge($_GET,array('page' => 1)));
+    $prev_page = http_build_query(array_merge($_GET,array('page' => $page - 1)));
+    $next_page = http_build_query(array_merge($_GET,array('page' => $page + 1)));
+    $last_page = http_build_query(array_merge($_GET,array('page' => $total_pages)));
 
     $paging_choices = "";
-    if($page != 1) $paging_choices .= "<a href=\"?page=1\">First</a> | <a href=\"?page=$prev_page\">Previous</a> | ";
+    if($page != 1) $paging_choices .= "<a href=\"?$first_page\">First</a> | <a href=\"?$prev_page\">Previous</a> | ";
     else $paging_choices .= "First | Previous | ";
     $paging_choices .= "Page $page of $total_pages | ";
-    $paging_choices .= $page != $total_pages ? "<a href=\"?page=$next_page\">Next</a> | <a href=\"?page=$total_pages\">Last</a>" : "Next | Last";
+    $paging_choices .= $page != $total_pages ? "<a href=\"?$next_page\">Next</a> | <a href=\"?$last_page\">Last</a>" : "Next | Last";
 
     $result = mysqli_query($connection, $query);
     $row_count = mysqli_num_rows($result);
@@ -85,7 +87,7 @@ query;
 
         <table class="right">
             <tr><td colspan="9" class="first">$paging_choices</td></tr>
-            <tr><th class="left">Date</th><th>Time</th><th>Latitude</th><th>Longitude</th><th>Magnitude</th><th>Effected Population</th><th>Economic Cost</th><th>Injuries</th><th>Fatalities</th></tr>
+            <tr><th class="left">Date</th><th>Time</th><th>Location</th><th>Magnitude</th><th>Affected Population</th><th>Economic Cost</th><th>Injuries</th><th>Fatalities</th></tr>
 
 TABLE;
 
@@ -93,14 +95,17 @@ TABLE;
         $row = mysqli_fetch_assoc($result);
         if($row[costs] != NULL) $row[costs] = "\$" . $row[costs];
 
-        $content .= "            <tr><td class=\"left\">$row[formattedDate]</td><td>$row[formattedTime]</td><td>$row[latitude]</td><td>$row[longitude]</td><td>$row[mag]</td><td>$row[effected_population]</td><td>$row[costs]</td><td>$row[injuries]</td><td>$row[fatalities]</td></tr>";
+        $content .= "            <tr><td class=\"left\">$row[formattedDate]</td><td>$row[formattedTime]</td><td><a href=\"https://maps.google.com/maps?z=10&q=$row[latitude]+$row[longitude]\">($row[latitude], $row[longitude])</a></td><td>$row[mag]</td><td>$row[affected_population]</td><td>$row[costs]</td><td>$row[injuries]</td><td>$row[fatalities]</td></tr>";
     }
 
     $content .= <<<TABLE2
             <tr><td colspan="9" class="last">$row_count rows returned of $total_rows.<br>$paging_choices</td></tr>
         </table>
-
 TABLE2;
+
+    if($row_count == 0) {
+        $content = "<p class=\"error\">We couldn't find any earthquakes with that search criteria.</p>";
+    }
 
     include('includes/template.php');
 
