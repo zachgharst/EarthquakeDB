@@ -29,3 +29,18 @@ BEGIN
 END $$
     
 DELIMITER ;
+
+
+
+DROP TRIGGER IF EXISTS CalculatePremium;
+
+DELIMITER $$
+
+CREATE TRIGGER CalculatePremium
+AFTER INSERT
+ON `policy` FOR EACH ROW
+BEGIN
+    CALL CalculatePremium;
+END$$
+
+DELIMITER;
