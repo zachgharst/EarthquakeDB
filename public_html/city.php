@@ -37,7 +37,7 @@
             if($numPolicies > 0) {
                 $content .= "<li>Policies: <ul>";
                 while($row = mysqli_fetch_array($policyData)) {
-                    $content .= "<li><a href=\"policies.php?id=$row[id]\">$row[policy_name] from $row[companyname]</a></li>";
+                    $content .= "<li><a href=\"policies.php?id=$row[id]\">$row[policy_name] from $row[company_name]</a></li>";
                 }
                 $content .= "</ul></li>";
             }
