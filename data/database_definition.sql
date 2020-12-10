@@ -17,6 +17,9 @@ CREATE TABLE earthquake (
     PRIMARY KEY(id)
 );
 
+CREATE INDEX IX_earthquake_mag
+ON earthquake (mag);
+
 CREATE TABLE damage (
     earthquake_id INT NOT NULL,
     costs         INT unsigned DEFAULT NULL,
