@@ -61,6 +61,10 @@ BEGIN
     DECLARE magnitude FLOAT DEFAULT 0.0;
     DECLARE local_latitude FLOAT DEFAULT 0.0;
     DECLARE local_longitude FLOAT DEFAULT 0.0;
+    DECLARE max_cluster INT DEFAULT 0;
+    DECLARE other_quake INT DEFAULT 0;
+
+    SET max_cluster= (SELECT MAX(cluster_id) FROM cluster)+1;
 
     SELECT mag, latitude, longitude
     INTO   magnitude, local_latitude, local_longitude
@@ -84,7 +88,23 @@ BEGIN
         JOIN earthquake
             ON most_recent_earthquake = id) t1
             WHERE  St_distance_sphere(Point(local_longitude, local_latitude), Point(
-                    t1.longitude, t1.latitude)) * .000621371192 < radius;  
+                    t1.longitude, t1.latitude)) * .000621371192 < radius;
+		    
+    	SELECT id FROM earthquake
+			WHERE  St_distance_sphere(Point(local_longitude, local_latitude), Point(
+							earthquake.longitude, earthquake.latitude)) * .000621371192 < 10 AND mag >5.0
+	 	AND id NOT IN ( SELECT earthquake_id FROM cluster)
+             	ORDER BY TIME ASC
+             	LIMIT 1
+		INTO other_quake;
+             
+             
+             	IF max_cluster >0 AND other_quake >0 THEN
+			 
+				 INSERT INTO cluster (cluster_id,earthquake_id)
+				 VALUES (max_cluster, other_quake),(max_cluster, eid);
+         
+		END IF;
         
     END IF;
 END $$
