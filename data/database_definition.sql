@@ -149,9 +149,9 @@ CREATE TABLE policies_in_cities
     FOREIGN KEY (cityID) REFERENCES city(id)
 );
 
-ALTER TABLE products DROP FOREIGN KEY products_ibfk_1;
+/*ALTER TABLE policy DROP FOREIGN KEY policy_ibfk_1;*/
 ALTER TABLE policy DROP FOREIGN KEY city_id;
 INSERT INTO policies_in_cities (policyID, cityID)
 SELECT city.id as city_id, policy.id as policy_id 
 FROM city CROSS JOIN policy 
-WHERE city.population  BETWEEN 1 AND 10000000;
+WHERE city.population BETWEEN 1 AND 100000000;
