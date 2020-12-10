@@ -133,3 +133,25 @@ VALUES
 ('Dwelling Coverage', 3),
 ('Bundle Dwelling + ALE', 5),
 ('Bundle All', 7);
+
+/**Ahmed*/
+/* Junction table */
+CREATE TABLE policies_in_cities
+(
+    policyID int NOT NULL,
+    cityID int NOT NULL,
+    CONSTRAINT PK_policies_in_cities PRIMARY KEY
+    (
+        policyID,
+        cityID
+    ),
+    FOREIGN KEY (policyID) REFERENCES policy(id),
+    FOREIGN KEY (cityID) REFERENCES city(id)
+);
+
+ALTER TABLE products DROP FOREIGN KEY products_ibfk_1;
+ALTER TABLE policy DROP FOREIGN KEY city_id;
+INSERT INTO policies_in_cities (policyID, cityID)
+SELECT city.id as city_id, policy.id as policy_id 
+FROM city CROSS JOIN policy 
+WHERE city.population  BETWEEN 1 AND 10000000;
