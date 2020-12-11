@@ -109,21 +109,21 @@ VALUES
 ('Grade B', 'Blue Sky', 2, 2),
 ('Grade C', 'Blue Sky', 3, 2),
 ('Basic', 'Travelers', 1, 2),
-('Bronze', 'Insurify', 1, 3),
-('Plus', 'Insurify', 2, 3),
-('Prime', 'Travelers', 3, 3),
-('Grade A', 'Blue Sky', 1, 4),
-('Grade B', 'Blue Sky', 2, 4),
-('Platinum', 'Insurify', 5, 4),
-('Plus', 'Travelers', 3, 4),
-('Sapphire', 'State Farm', 4, 4),
-('Diamond', 'State Farm', 5, 4),
-('Sapphire', 'State Farm', 4, 5),
-('Basic', 'Travelers', 1, 5),
-('Prime', 'Travelers', 5, 5),
-('Gold', 'Insurify', 4, 6),
-('Ruby', 'State Farm', 2, 6),
-('Emerald', 'State Farm', 3, 6);
+('Bronze', 'Insurify', 1, 3337),
+('Plus', 'Insurify', 2, 3337),
+('Prime', 'Travelers', 3, 3337),
+('Grade A', 'Blue Sky', 1, 28),
+('Grade B', 'Blue Sky', 2, 28),
+('Platinum', 'Insurify', 5, 28),
+('Plus', 'Travelers', 3, 28),
+('Sapphire', 'State Farm', 4, 28),
+('Diamond', 'State Farm', 5, 28),
+('Sapphire', 'State Farm', 4, 207),
+('Basic', 'Travelers', 1, 207),
+('Prime', 'Travelers', 5, 207),
+('Gold', 'Insurify', 4, 109),
+('Ruby', 'State Farm', 2, 109),
+('Emerald', 'State Farm', 3, 109);
 
 INSERT INTO `policy_type`
 (type_name, price_modifier)
@@ -133,3 +133,25 @@ VALUES
 ('Dwelling Coverage', 3),
 ('Bundle Dwelling + ALE', 5),
 ('Bundle All', 7);
+
+/**Ahmed*/
+/* Junction table */
+CREATE TABLE policies_in_cities
+(
+    policyID int NOT NULL,
+    cityID int NOT NULL,
+    CONSTRAINT PK_policies_in_cities PRIMARY KEY
+    (
+        policyID,
+        cityID
+    ),
+    FOREIGN KEY (policyID) REFERENCES policy(id),
+    FOREIGN KEY (cityID) REFERENCES city(id)
+);
+
+/*ALTER TABLE policy DROP FOREIGN KEY policy_ibfk_1;*/
+ALTER TABLE policy DROP FOREIGN KEY city_id;
+INSERT INTO policies_in_cities (policyID, cityID)
+SELECT city.id as city_id, policy.id as policy_id 
+FROM city CROSS JOIN policy 
+WHERE city.population BETWEEN 1 AND 100000000;
