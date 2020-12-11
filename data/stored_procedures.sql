@@ -160,36 +160,19 @@ DELIMITER $$
 
 CREATE PROCEDURE CalculatePremium (IN p_id INT)
 BEGIN
-    DECLARE local_city_id INT DEFAULT 0;
-    DECLARE count_damages INT DEFAULT 0;
-    DECLARE citypricemod INT DEFAULT 0;
     DECLARE typepricemod FLOAT DEFAULT 0;
-    DECLARE prem FLOAT DEFAULT 0;
+    DECLARE baseprem FLOAT DEFAULT 0;
         
-    SELECT city_id, price_modifier
-    INTO local_city_id, typepricemod
+    SELECT price_modifier
+    INTO typepricemod
     FROM policy
     JOIN policy_type ON type_id = policy_type.id
     WHERE policy.id = p_id;
-        
-    SELECT count(*)
-    INTO count_damages
-    FROM damage
-    JOIN earthquake_city ON damage.earthquake_id = earthquake_city.earthquake_id
-    WHERE costs > 500 AND earthquake_city.city_id = local_city_id;
 
-    IF(count_damages > 3) THEN
-        SET citypricemod = 2;
-    END IF;
-
-    IF(count_damages < 3) THEN 
-        SET citypricemod = 1;
-    END IF;
-
-    SET prem = (500 * typepricemod * citypricemod);
+    SET baseprem = (500 * typepricemod * citypricemod);
 
     UPDATE policy
-    SET premium = prem
+    SET premium = baseprem
     WHERE id = p_id;
 END$$
 
