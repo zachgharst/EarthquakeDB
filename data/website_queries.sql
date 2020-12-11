@@ -100,7 +100,7 @@ SELECT DATE_FORMAT(time, '%M %e, %Y') as time1, TIME(time) as time2, mag, earthq
 
 /* The last part of the Single City Display is listing out the insurance policies that are
  * available in that city. */
-SELECT id, policy_name, companyname FROM policy WHERE city_id = $id;
+SELECT id, policy_name, company_name FROM policy JOIN policies_in_cities ON policy.id = policies_in_cities.policyID WHERE cityID = $id;
 
 /***********************************************
   Insurance Policies : policies.php
@@ -111,3 +111,7 @@ SELECT id, policy_name, companyname FROM policy WHERE city_id = $id;
 SELECT policy_name as p_name, policy.id as p_id , city.name as c_name
     FROM policy inner join city
     on policy.city_id = city.id;
+    
+    SELECT policy_name, company_name, premium, type_name FROM policy JOIN policy_type ON policy.type_id = policy_type.id WHERE policy.id = $_GET[id];
+    
+    SELECT name FROM policies_in_cities JOIN city ON policies_in_cities.cityID = city.id WHERE policyID = $_GET[id];

@@ -29,7 +29,7 @@
                 <li>Population: $cityData[population]</li>
                 <li>Location: ($cityData[latitude], $cityData[longitude])</li>";
 
-            $policyData = "SELECT id, policy_name, company_name FROM policy WHERE city_id = $id";
+            $policyData = "SELECT id, policy_name, company_name FROM policy JOIN policies_in_cities ON policy.id = policies_in_cities.policyID WHERE cityID = $id";
             $policyData = mysqli_query($connection, $policyData);
             $numPolicies = mysqli_num_rows($policyData);
     

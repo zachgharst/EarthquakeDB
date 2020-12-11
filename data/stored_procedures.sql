@@ -89,22 +89,22 @@ BEGIN
             ON most_recent_earthquake = id) t1
             WHERE  St_distance_sphere(Point(local_longitude, local_latitude), Point(
                     t1.longitude, t1.latitude)) * .000621371192 < radius;
-		    
-    	SELECT id FROM earthquake
-			WHERE  St_distance_sphere(Point(local_longitude, local_latitude), Point(
-							earthquake.longitude, earthquake.latitude)) * .000621371192 < 10 AND mag >5.0
-	 	AND id NOT IN ( SELECT earthquake_id FROM cluster)
-             	ORDER BY TIME ASC
-             	LIMIT 1
-		INTO other_quake;
+
+        SELECT id FROM earthquake
+            WHERE  St_distance_sphere(Point(local_longitude, local_latitude), Point(
+                earthquake.longitude, earthquake.latitude)) * .000621371192 < 10 AND mag >5.0
+        AND id NOT IN ( SELECT earthquake_id FROM cluster)
+            ORDER BY TIME ASC
+                LIMIT 1
+        INTO other_quake;
              
              
-             	IF max_cluster >0 AND other_quake >0 THEN
-			 
-				 INSERT INTO cluster (cluster_id,earthquake_id)
-				 VALUES (max_cluster, other_quake),(max_cluster, eid);
-         
-		END IF;
+                IF max_cluster >0 AND other_quake >0 THEN
+
+                INSERT INTO cluster (cluster_id,earthquake_id)
+                VALUES (max_cluster, other_quake),(max_cluster, e_id);
+
+        END IF;
         
     END IF;
 END $$
@@ -160,36 +160,19 @@ DELIMITER $$
 
 CREATE PROCEDURE CalculatePremium (IN p_id INT)
 BEGIN
-    DECLARE local_city_id INT DEFAULT 0;
-    DECLARE count_damages INT DEFAULT 0;
-    DECLARE citypricemod INT DEFAULT 0;
     DECLARE typepricemod FLOAT DEFAULT 0;
-    DECLARE prem FLOAT DEFAULT 0;
+    DECLARE baseprem FLOAT DEFAULT 0;
         
-    SELECT city_id, price_modifier
-    INTO local_city_id, typepricemod
+    SELECT price_modifier
+    INTO typepricemod
     FROM policy
     JOIN policy_type ON type_id = policy_type.id
     WHERE policy.id = p_id;
-        
-    SELECT count(*)
-    INTO count_damages
-    FROM damage
-    JOIN earthquake_city ON damage.earthquake_id = earthquake_city.earthquake_id
-    WHERE costs > 500 AND earthquake_city.city_id = local_city_id;
 
-    IF(count_damages > 3) THEN
-        SET citypricemod = 2;
-    END IF;
-
-    IF(count_damages < 3) THEN 
-        SET citypricemod = 1;
-    END IF;
-
-    SET prem = (500 * typepricemod * citypricemod);
+    SET baseprem = (500 * typepricemod * citypricemod);
 
     UPDATE policy
-    SET premium = prem
+    SET premium = baseprem
     WHERE id = p_id;
 END$$
 
